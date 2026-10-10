@@ -111,7 +111,7 @@ export const Navigation: React.FC<NavigationProps> = ({
             </div>
 
             {/* 2. Center: Editorial Luxury Navigation Links */}
-            <div className="hidden xl:flex items-center">
+            <div className="hidden lg:flex items-center">
               <DesktopNav
                 items={MAIN_NAV_ITEMS}
                 activeId={activeItem}

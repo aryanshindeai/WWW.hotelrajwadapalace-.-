@@ -24,7 +24,7 @@ export const GalleryFilters: React.FC<GalleryFiltersProps> = ({
   return (
     <nav
       aria-label="Gallery category filters"
-      className={`flex flex-wrap items-center gap-6 sm:gap-8 ${className}`}
+      className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}
     >
       {CATEGORY_TABS.map((tab) => {
         const isActive = tab.id === currentCategory;
@@ -33,20 +33,14 @@ export const GalleryFilters: React.FC<GalleryFiltersProps> = ({
             key={tab.id}
             type="button"
             onClick={() => onSelectCategory(tab.id)}
-            className={`group relative py-2 font-sans text-xs tracking-[0.2em] uppercase transition-colors duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-gold cursor-pointer ${
-              isActive ? 'text-gold font-medium' : 'text-sand/70 hover:text-ivory'
+            className={`px-4 py-2 text-xs sm:text-sm font-sans font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold cursor-pointer ${
+              isActive
+                ? 'bg-gold text-charcoal-deep shadow-md font-semibold'
+                : 'bg-charcoal-surface/80 text-sand hover:text-ivory hover:bg-charcoal-deep border border-white/10'
             }`}
             aria-current={isActive ? 'true' : 'false'}
           >
-            <span>{tab.label}</span>
-            <span
-              className={`absolute bottom-0 left-0 right-0 h-[1.5px] bg-gold transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                isActive
-                  ? 'opacity-100 scale-x-100'
-                  : 'opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75'
-              }`}
-              aria-hidden="true"
-            />
+            {tab.label}
           </button>
         );
       })}

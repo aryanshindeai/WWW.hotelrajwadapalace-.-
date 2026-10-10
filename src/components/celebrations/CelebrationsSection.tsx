@@ -34,9 +34,9 @@ export const CelebrationsSection: React.FC<CelebrationsSectionProps> = ({
         {/* Section Introduction */}
         <div className="mb-12 sm:mb-16">
           <SectionHeading
-            eyebrow="CELEBRATIONS"
-            title="Made for Moments"
-            subtitle="From meaningful gatherings to memorable occasions, discover a setting designed around bringing people together in Chandrapur."
+            eyebrow="WEDDINGS &amp; EVENTS"
+            title="Weddings, Celebrations &amp; Grand Events"
+            subtitle="Spacious banquet halls, decorated wedding stages, and open-air rooftop grounds in Chandrapur. Plan your dream wedding or milestone celebration with our team."
             align="left"
           />
         </div>

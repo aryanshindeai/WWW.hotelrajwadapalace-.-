@@ -40,6 +40,20 @@ export const ContactActions: React.FC<ContactActionsProps> = ({
       >
         Call: {phoneDisplay}
       </Button>
+
+      {/* Tertiary Action: Direct WhatsApp Chat */}
+      <Button
+        variant="secondary"
+        size="md"
+        as="a"
+        href="https://wa.me/919921019664"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full sm:w-auto text-center text-emerald-400 border-emerald-500/30 hover:border-emerald-400"
+        aria-label="Chat with Hotel Rajwada Palace on WhatsApp"
+      >
+        WhatsApp Us
+      </Button>
     </div>
   );
 };

@@ -28,8 +28,8 @@ export const NavLink: React.FC<NavLinkProps> = ({
           onClick(item.id);
         }
       }}
-      className={`group relative py-2 font-sans text-xs uppercase tracking-[0.18em] transition-colors duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-gold/60 ${
-        isActive ? 'text-gold' : 'text-ivory/85 hover:text-ivory-light'
+      className={`group relative py-2.5 px-1 font-sans text-[13px] tracking-[0.1em] font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-gold ${
+        isActive ? 'text-gold font-semibold' : 'text-ivory/90 hover:text-gold-light'
       } ${className}`}
       aria-current={isActive ? 'page' : undefined}
     >

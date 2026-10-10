@@ -37,12 +37,12 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
       className={`relative ${className}`}
     >
       <Container size="xl">
-        {/* Section Introduction: Restrained display heading with minimal copy */}
+        {/* Section Introduction */}
         <div className="mb-10 sm:mb-14">
           <SectionHeading
-            eyebrow="THE GALLERY"
-            title="The Palace, in Frame"
-            subtitle="Curated visual perspectives capturing the architectural serenity, celebratory spaces, and regional horizons of Hotel Rajwada Palace."
+            eyebrow="PHOTO GALLERY"
+            title="Explore Hotel Rajwada Palace"
+            subtitle="Click the categories below to view verified photos of our weddings, rooms, dining spaces, and facilities. Tap any photo to open full-screen view."
             align="left"
           />
         </div>

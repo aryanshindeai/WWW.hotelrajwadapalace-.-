@@ -17,28 +17,28 @@ export const MobileMenuButton: React.FC<MobileMenuButtonProps> = ({
     <button
       type="button"
       onClick={onClick}
-      className={`group relative flex items-center justify-center p-3 text-ivory transition-colors duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-gold cursor-pointer ${className}`}
-      aria-label={isOpen ? 'Close luxury navigation menu' : 'Open luxury navigation menu'}
+      className={`group flex items-center gap-2 py-1.5 px-3 text-ivory bg-charcoal-surface/90 border border-white/20 hover:border-gold hover:text-gold transition-colors duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-gold rounded-sm cursor-pointer ${className}`}
+      aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
       aria-expanded={isOpen}
       aria-controls={ariaControls}
     >
-      <div className="relative w-6 h-4 flex flex-col justify-between items-end">
-        {/* Top bar */}
+      <span className="text-xs font-sans font-medium uppercase tracking-wider">
+        {isOpen ? 'Close' : 'Menu'}
+      </span>
+      <div className="relative w-4 h-3.5 flex flex-col justify-between" aria-hidden="true">
         <span
-          className={`h-[1.5px] bg-ivory transition-all duration-350 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right ${
-            isOpen ? 'w-5 -rotate-45 translate-y-[2px] bg-gold' : 'w-6 group-hover:w-5'
+          className={`h-[2px] w-4 bg-current transition-all duration-300 ${
+            isOpen ? 'rotate-45 translate-y-[5px] text-gold' : ''
           }`}
         />
-        {/* Middle bar */}
         <span
-          className={`h-[1.5px] bg-ivory transition-all duration-300 ease-out ${
-            isOpen ? 'opacity-0 w-0' : 'w-4 group-hover:w-6'
+          className={`h-[2px] w-4 bg-current transition-all duration-200 ${
+            isOpen ? 'opacity-0' : 'opacity-100'
           }`}
         />
-        {/* Bottom bar */}
         <span
-          className={`h-[1.5px] bg-ivory transition-all duration-350 ease-[cubic-bezier(0.25,1,0.5,1)] origin-right ${
-            isOpen ? 'w-5 rotate-45 -translate-y-[2px] bg-gold' : 'w-5 group-hover:w-4'
+          className={`h-[2px] w-4 bg-current transition-all duration-300 ${
+            isOpen ? '-rotate-45 -translate-y-[5px] text-gold' : ''
           }`}
         />
       </div>

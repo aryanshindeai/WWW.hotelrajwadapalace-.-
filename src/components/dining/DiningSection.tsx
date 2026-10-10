@@ -34,9 +34,9 @@ export const DiningSection: React.FC<DiningSectionProps> = ({
         {/* Section Introduction */}
         <div className="mb-12 sm:mb-16">
           <SectionHeading
-            eyebrow="DINING"
-            title="Dining at Rajwada"
-            subtitle="Authentic culinary hospitality, celebratory banquet feasts, and leisurely dining rooted in regional warmth."
+            eyebrow="RESTAURANT &amp; DINING"
+            title="Restaurant &amp; Dining at Rajwada"
+            subtitle="Delicious meals, celebratory banquet feasts, and family dining. Reserve a table or order dining arrangements directly from our restaurant desk."
             align="left"
           />
         </div>
