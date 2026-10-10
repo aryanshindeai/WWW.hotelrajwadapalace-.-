@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 
 export interface RoomMarqueeItem {
   id: string;
@@ -8,65 +8,39 @@ export interface RoomMarqueeItem {
   description: string;
   image: string;
   imageWebp?: string;
-  roomIndex?: number;
+  roomIndex: number;
 }
 
 export const ROOM_MARQUEE_ITEMS: RoomMarqueeItem[] = [
   {
-    id: 'marquee-deluxe',
-    tag: '01 · DELUXE ROOM',
-    title: 'Sanctuary Deluxe Room',
-    tariff: 'From ₹2,400',
-    description: 'Double Bed · AC · High-Speed Wi-Fi · Attached Bath',
-    image: '/images/rajwada-palace/verified/rajwada-room-01.jpg',
-    imageWebp: '/images/rajwada-palace/verified/rajwada-room-01.webp',
-    roomIndex: 0,
-  },
-  {
-    id: 'marquee-family',
-    tag: '02 · FAMILY ROOM',
-    title: 'Family & Group Quarters',
-    tariff: 'From ₹3,200',
-    description: 'Multi-Bed Layout · Wedding Party · Spacious Luggage Wing',
-    image: '/images/rajwada-palace/verified/rajwada-room-02-master.jpg',
-    imageWebp: '/images/rajwada-palace/verified/rajwada-room-02-master.webp',
-    roomIndex: 1,
-  },
-  {
-    id: 'marquee-suite',
-    tag: '03 · PALACE SUITE',
+    id: 'marquee-executive',
+    tag: '01 · EXECUTIVE SUITE',
     title: 'Palace Executive Suite',
     tariff: 'From ₹4,000',
     description: 'King Bed · Velvet Sitting Lounge Sofa · Ambient Vanity',
     image: '/images/rajwada-palace/verified/rajwada-suite-03-master.jpg',
     imageWebp: '/images/rajwada-palace/verified/rajwada-suite-03-master.webp',
+    roomIndex: 0,
+  },
+  {
+    id: 'marquee-deluxe',
+    tag: '02 · DELUXE ROOM',
+    title: 'Sanctuary Deluxe Room',
+    tariff: 'From ₹2,400',
+    description: 'Double Bed · AC · High-Speed Wi-Fi · Attached Bath',
+    image: '/images/rajwada-palace/verified/rajwada-room-01.jpg',
+    imageWebp: '/images/rajwada-palace/verified/rajwada-room-01.webp',
+    roomIndex: 1,
+  },
+  {
+    id: 'marquee-dormitory',
+    tag: '03 · DORMITORY (FAMILY ROOM)',
+    title: 'Dormitory (Family Room)',
+    tariff: 'From ₹3,200',
+    description: 'Multi-Bed Dormitory Layout · Group & Wedding Stays · Spacious Luggage',
+    image: '/images/rajwada-palace/verified/rajwada-room-02-master.jpg',
+    imageWebp: '/images/rajwada-palace/verified/rajwada-room-02-master.webp',
     roomIndex: 2,
-  },
-  {
-    id: 'marquee-foyer',
-    tag: 'ARRIVAL · CONCIERGE',
-    title: 'Reception Foyer & Welcome',
-    tariff: '24/7 Front Desk',
-    description: 'Round-the-Clock Guest Assistance & Room Service Desk',
-    image: '/images/rajwada-palace/verified/rajwada-reception-foyer-master.jpg',
-    imageWebp: '/images/rajwada-palace/verified/rajwada-reception-foyer-master.webp',
-  },
-  {
-    id: 'marquee-lounge',
-    tag: 'INTERIOR ARCHITECTURE',
-    title: 'Palace Interior Lounge',
-    tariff: 'Restful Ambiance',
-    description: 'Grand Chandelier Living Spaces & Serene Hallways',
-    image: '/images/rajwada-palace/verified/google_photo_02.jpg',
-  },
-  {
-    id: 'marquee-rooftop',
-    tag: 'ROOFTOP · OPEN-AIR',
-    title: 'Open Sky Sunset Terrace',
-    tariff: 'Scenic Views',
-    description: 'Evening Strolls & Fresh Air Over Chandrapur Skyline',
-    image: '/images/rajwada-palace/verified/rajwada-rooftop-terrace-master.jpg',
-    imageWebp: '/images/rajwada-palace/verified/rajwada-rooftop-terrace-master.webp',
   },
 ];
 
@@ -81,11 +55,13 @@ export const RoomMarqueeTrack: React.FC<RoomMarqueeTrackProps> = ({
   onBookRoom,
   className = '',
 }) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // Duplicate items twice to achieve seamless infinite loop
-  const duplicatedItems = [...ROOM_MARQUEE_ITEMS, ...ROOM_MARQUEE_ITEMS];
+  // Repeated seamlessly for a continuous infinite ribbon
+  const continuousCards = [
+    ...ROOM_MARQUEE_ITEMS,
+    ...ROOM_MARQUEE_ITEMS,
+    ...ROOM_MARQUEE_ITEMS,
+    ...ROOM_MARQUEE_ITEMS,
+  ];
 
   const handleCardClick = (item: RoomMarqueeItem) => {
     if (typeof item.roomIndex === 'number' && onSelectRoom) {
@@ -95,74 +71,10 @@ export const RoomMarqueeTrack: React.FC<RoomMarqueeTrackProps> = ({
     }
   };
 
-  const handleManualScroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = direction === 'left' ? -380 : 380;
-      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className={`relative w-full ${className}`}>
-      {/* Track Header & Interactive Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-5 sm:mb-6 px-1">
-        <div className="flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-gold animate-pulse" aria-hidden="true" />
-          <span className="text-xs uppercase tracking-[0.16em] text-gold font-mono font-medium">
-            Live Showcase · Rooms & Interiors
-          </span>
-          <span className="hidden sm:inline-block text-xs text-sand/60">
-            (Hover or tap to pause)
-          </span>
-        </div>
-
-        {/* Play/Pause and Manual Scroll Controls */}
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setIsPaused((prev) => !prev)}
-            className="px-3 py-1 rounded-full text-xs font-mono tracking-wider bg-charcoal-surface/80 border border-white/10 text-ivory/80 hover:text-gold hover:border-gold/40 transition-colors flex items-center gap-1.5 cursor-pointer"
-            aria-label={isPaused ? 'Resume auto-movement' : 'Pause auto-movement'}
-          >
-            {isPaused ? (
-              <>
-                <span>▶</span>
-                <span>Resume</span>
-              </>
-            ) : (
-              <>
-                <span>⏸</span>
-                <span>Pause</span>
-              </>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleManualScroll('left')}
-            className="w-7 h-7 rounded-full flex items-center justify-center bg-charcoal-surface/80 border border-white/10 text-ivory/80 hover:text-gold hover:border-gold/40 transition-colors text-xs cursor-pointer"
-            aria-label="Scroll left"
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            onClick={() => handleManualScroll('right')}
-            className="w-7 h-7 rounded-full flex items-center justify-center bg-charcoal-surface/80 border border-white/10 text-ivory/80 hover:text-gold hover:border-gold/40 transition-colors text-xs cursor-pointer"
-            aria-label="Scroll right"
-          >
-            →
-          </button>
-        </div>
-      </div>
-
-      {/* Marquee Track Container with Vignette Fade Masks */}
-      <div
-        className="relative w-full overflow-hidden rounded-2xl group"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={() => setIsPaused(true)}
-      >
+      {/* Marquee Track Container with Vignette Fade Masks — Continuous Run */}
+      <div className="relative w-full overflow-hidden rounded-2xl group select-none">
         {/* Left Edge Luxury Gradient Fade */}
         <div
           className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-charcoal to-transparent z-10 pointer-events-none"
@@ -175,19 +87,16 @@ export const RoomMarqueeTrack: React.FC<RoomMarqueeTrackProps> = ({
           aria-hidden="true"
         />
 
-        {/* Moving Track */}
+        {/* Moving Track — Glides Continuously without Interruption */}
         <div
-          ref={scrollContainerRef}
-          className={`flex gap-5 sm:gap-6 py-2 ${
-            isPaused ? 'animate-marquee-paused overflow-x-auto scrollbar-none' : 'animate-marquee-track'
-          }`}
+          className="flex gap-5 sm:gap-6 py-2 animate-marquee-track"
           style={{ width: 'max-content' }}
         >
-          {duplicatedItems.map((item, index) => (
+          {continuousCards.map((item, index) => (
             <div
               key={`${item.id}-${index}`}
               onClick={() => handleCardClick(item)}
-              className="relative w-[280px] sm:w-[350px] md:w-[400px] flex-shrink-0 rounded-2xl overflow-hidden bg-charcoal-surface border border-white/10 hover:border-gold/50 transition-all duration-500 shadow-xl group/card cursor-pointer select-none"
+              className="relative w-[280px] sm:w-[350px] md:w-[400px] flex-shrink-0 rounded-2xl overflow-hidden bg-charcoal-surface border border-white/10 hover:border-gold/50 transition-all duration-500 shadow-xl group/card cursor-pointer"
             >
               {/* Image Container with 16:10 Luxury Ratio */}
               <div className="relative aspect-[16/10] overflow-hidden">
@@ -229,7 +138,7 @@ export const RoomMarqueeTrack: React.FC<RoomMarqueeTrackProps> = ({
 
                   <div className="flex items-center justify-between pt-1 border-t border-white/10">
                     <span className="text-[10px] uppercase font-mono tracking-widest text-sand/80 group-hover/card:text-ivory transition-colors">
-                      {typeof item.roomIndex === 'number' ? 'View Details & Book' : 'Property Amenity'}
+                      View Details & Book
                     </span>
                     <span className="text-gold text-xs group-hover/card:translate-x-1 transition-transform">
                       →

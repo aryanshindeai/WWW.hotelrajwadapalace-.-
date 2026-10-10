@@ -12,7 +12,7 @@ interface HotelBookingModalProps {
 export const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
   isOpen,
   onClose,
-  initialRoomType = 'Sanctuary Deluxe Room',
+  initialRoomType = 'Palace Executive Suite',
 }) => {
   const [guestName, setGuestName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -141,9 +141,9 @@ Please confirm availability and current tariff for these dates.`;
                 onChange={(e) => setRoomType(e.target.value)}
                 className="w-full bg-charcoal px-3 py-2.5 border border-white/15 text-ivory focus:border-gold focus:outline-none"
               >
+                <option value="Palace Executive Suite">Palace Executive Suite</option>
                 <option value="Sanctuary Deluxe Room">Sanctuary Deluxe Room</option>
-                <option value="Family & Group Quarters">Family & Group Quarters</option>
-                <option value="Palace Suite Living">Palace Suite Living</option>
+                <option value="Dormitory (Family Room)">Dormitory (Family Room)</option>
               </select>
             </div>
             <div>

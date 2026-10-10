@@ -213,12 +213,7 @@ html {
 }
 
 .animate-marquee-track {
-  animation: continuousScrollLeft 35s linear infinite;
+  animation: continuousScrollLeft 30s linear infinite;
   will-change: transform;
-}
-
-.animate-marquee-track:hover,
-.animate-marquee-paused {
-  animation-play-state: paused;
 }
 
