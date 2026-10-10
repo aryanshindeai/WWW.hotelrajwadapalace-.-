@@ -17,6 +17,7 @@ import {
   Typography,
   HotelBookingModal,
   RestaurantEnquiryModal,
+  FoodOrderModal,
   EventEnquiryModal,
 } from './components';
 
@@ -33,6 +34,7 @@ export function App() {
   const [roomModalOpen, setRoomModalOpen] = useState(false);
   const [selectedRoomType, setSelectedRoomType] = useState('Sanctuary Deluxe Room');
   const [diningModalOpen, setDiningModalOpen] = useState(false);
+  const [foodModalOpen, setFoodModalOpen] = useState(false);
   const [eventModalOpen, setEventModalOpen] = useState(false);
 
   const handleSelectSection = (id: string) => {
@@ -52,6 +54,10 @@ export function App() {
     setDiningModalOpen(true);
   };
 
+  const handleOrderFood = () => {
+    setFoodModalOpen(true);
+  };
+
   const handleEnquireEvent = () => {
     setEventModalOpen(true);
   };
@@ -65,18 +71,20 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-charcoal text-ivory flex flex-col antialiased selection:bg-gold/25 selection:text-gold-light">
-      {/* 1. Global Navigation Shell (Sitting cleanly above the Hero) */}
+      {/* 1. Global Floating Pill Navigation Bar */}
       <Navigation
         activeSectionId={activeSection}
         onSelectSection={handleSelectSection}
         onBookRoom={() => handleBookRoom()}
-        onCheckAvailability={() => handleBookRoom()}
-        onContactClick={() => handleSelectSection('contact')}
+        onReserveTable={handleEnquireDining}
+        onOrderFood={handleOrderFood}
       />
 
-      {/* 2. Step 3 Cinematic Hero Experience */}
+      {/* 2. Step 3 Cinematic Hero with Automatic Image Carousel */}
       <CinematicHero
-        onCheckAvailability={() => handleBookRoom()}
+        onBookRoom={() => handleBookRoom()}
+        onReserveTable={handleEnquireDining}
+        onOrderFood={handleOrderFood}
         onExplore={handleExplore}
         scrollTargetId="overview"
       />
@@ -132,6 +140,7 @@ export function App() {
         <DiningSection
           onCheckAvailability={handleEnquireDining}
           onEnquireDining={handleEnquireDining}
+          onOrderFood={handleOrderFood}
         />
 
         {/* Step 7 Celebrations & Banquets Experience */}
@@ -175,6 +184,11 @@ export function App() {
       <RestaurantEnquiryModal
         isOpen={diningModalOpen}
         onClose={() => setDiningModalOpen(false)}
+      />
+
+      <FoodOrderModal
+        isOpen={foodModalOpen}
+        onClose={() => setFoodModalOpen(false)}
       />
 
       <EventEnquiryModal

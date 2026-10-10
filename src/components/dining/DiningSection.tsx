@@ -11,12 +11,14 @@ import { DINING_DATA } from '../../data/diningData';
 interface DiningSectionProps {
   onCheckAvailability?: () => void;
   onEnquireDining?: () => void;
+  onOrderFood?: () => void;
   className?: string;
 }
 
 export const DiningSection: React.FC<DiningSectionProps> = ({
   onCheckAvailability,
   onEnquireDining,
+  onOrderFood,
   className = '',
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,6 +70,7 @@ export const DiningSection: React.FC<DiningSectionProps> = ({
               dining={currentVenue}
               onCheckAvailability={onCheckAvailability}
               onEnquireDining={onEnquireDining}
+              onOrderFood={onOrderFood}
             />
           </div>
         </div>

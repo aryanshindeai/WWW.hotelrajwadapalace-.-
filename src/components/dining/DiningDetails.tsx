@@ -7,6 +7,7 @@ interface DiningDetailsProps {
   dining: DiningExperience;
   onCheckAvailability?: () => void;
   onEnquireDining?: () => void;
+  onOrderFood?: () => void;
   className?: string;
 }
 
@@ -14,6 +15,7 @@ export const DiningDetails: React.FC<DiningDetailsProps> = ({
   dining,
   onCheckAvailability,
   onEnquireDining,
+  onOrderFood,
   className = '',
 }) => {
   return (
@@ -85,22 +87,32 @@ export const DiningDetails: React.FC<DiningDetailsProps> = ({
         </div>
       </div>
 
-      {/* Distinct Restaurant Actions (Strictly separated from hotel room booking) */}
-      <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row gap-3">
+      {/* Distinct Restaurant Actions: Table Reservation + Food Order + Phone Desk */}
+      <div className="pt-2 sm:pt-4 flex flex-wrap gap-3">
         <Button
           variant="primary"
           size="md"
           onClick={onEnquireDining || onCheckAvailability}
-          className="w-full sm:w-auto text-center"
+          className="flex-1 sm:flex-initial text-center justify-center font-medium"
         >
-          Enquire Table &amp; Dining
+          Reserve a Table
         </Button>
+        {onOrderFood && (
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={onOrderFood}
+            className="flex-1 sm:flex-initial text-center justify-center border-gold/40 text-gold hover:bg-gold/10"
+          >
+            Order Food &amp; Menu
+          </Button>
+        )}
         <Button
           variant="secondary"
           size="md"
           as="a"
           href="tel:+919921019664"
-          className="w-full sm:w-auto text-center"
+          className="w-full sm:w-auto text-center justify-center text-xs"
         >
           Call Restaurant
         </Button>

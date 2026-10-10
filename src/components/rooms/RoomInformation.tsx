@@ -29,13 +29,40 @@ export const RoomInformation: React.FC<RoomInformationProps> = ({
           </span>
         </div>
 
-        {/* Room Title */}
-        <Typography
-          variant="h2"
-          className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-ivory-light"
-        >
-          {room.title}
-        </Typography>
+        {/* Room Title & Tariff Badge */}
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+          <Typography
+            variant="h2"
+            className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-ivory-light"
+          >
+            {room.title}
+          </Typography>
+          {room.tariffEstimate && (
+            <span className="font-mono text-sm sm:text-base text-gold font-medium bg-gold/10 px-3 py-1 border border-gold/30 rounded inline-block self-start sm:self-auto">
+              {room.tariffEstimate}
+            </span>
+          )}
+        </div>
+
+        {/* Quick Highlights Bar */}
+        <div className="flex flex-wrap items-center gap-4 text-xs text-sand pt-1">
+          {room.occupancy && (
+            <span className="flex items-center gap-1.5">
+              <span className="text-gold">👥</span> {room.occupancy}
+            </span>
+          )}
+          {room.bedType && (
+            <span className="flex items-center gap-1.5">
+              <span className="text-gold">🛏️</span> {room.bedType}
+            </span>
+          )}
+          <span className="flex items-center gap-1.5">
+            <span className="text-gold">📶</span> Free Wi-Fi
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="text-gold">❄️</span> AC Room
+          </span>
+        </div>
 
         {/* Description */}
         <Typography
@@ -64,7 +91,7 @@ export const RoomInformation: React.FC<RoomInformationProps> = ({
         {/* Verified Accommodation Credentials */}
         <div className="p-3 bg-charcoal-deep border border-white/5 text-[11px] text-sand/80 font-sans leading-relaxed">
           <span className="text-gold font-medium block mb-0.5">ACCOMMODATION &amp; SANCTUARY</span>
-          Comfortable guest rooms positioned along Durgapur Road, Chandrapur. Check-in assistance, custom arrangements, and group accommodations available.
+          Comfortable guest rooms positioned along Durgapur Road, Chandrapur. Check-in from 12:00 PM, Check-out by 10:00 AM. Free parking on-site.
         </div>
       </div>
 

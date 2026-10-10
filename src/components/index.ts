@@ -17,4 +17,5 @@ export * from './location';
 export * from './booking';
 export * from './HotelBookingModal';
 export * from './RestaurantEnquiryModal';
+export * from './FoodOrderModal';
 export * from './EventEnquiryModal';
