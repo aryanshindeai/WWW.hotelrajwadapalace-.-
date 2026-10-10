@@ -202,3 +202,23 @@ html {
   scroll-padding-top: 5.5rem;
 }
 
+/* Continuous Auto-Moving Room Showcase Track */
+@keyframes continuousScrollLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-track {
+  animation: continuousScrollLeft 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-track:hover,
+.animate-marquee-paused {
+  animation-play-state: paused;
+}
+

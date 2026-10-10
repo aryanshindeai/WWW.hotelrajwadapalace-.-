@@ -140,7 +140,9 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
                   alt={slide.alt}
                   fetchPriority={idx === 0 ? 'high' : 'low'}
                   decoding="async"
-                  className="w-full h-full object-cover object-center transform scale-100"
+                  className={`w-full h-full object-cover object-center transform transition-transform duration-[6500ms] ease-out ${
+                    isActive ? 'scale-105' : 'scale-100'
+                  }`}
                 />
               </picture>
             </div>

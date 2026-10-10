@@ -6,25 +6,31 @@ import { RoomSelector } from './RoomSelector';
 
 interface RoomShowcaseProps {
   rooms: RoomCategory[];
+  currentIndex?: number;
+  onSelectIndex?: (index: number) => void;
   onCheckAvailability?: () => void;
   className?: string;
 }
 
 export const RoomShowcase: React.FC<RoomShowcaseProps> = ({
   rooms,
+  currentIndex,
+  onSelectIndex,
   onCheckAvailability,
   className = '',
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [internalIndex, setInternalIndex] = useState(0);
+  const activeIndex = currentIndex !== undefined ? currentIndex : internalIndex;
+  const setActiveIndex = onSelectIndex || setInternalIndex;
 
-  const currentRoom = rooms[currentIndex] || rooms[0];
+  const currentRoom = rooms[activeIndex] || rooms[0];
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % rooms.length);
+    setActiveIndex((activeIndex + 1) % rooms.length);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + rooms.length) % rooms.length);
+    setActiveIndex((activeIndex - 1 + rooms.length) % rooms.length);
   };
 
   return (
@@ -33,8 +39,8 @@ export const RoomShowcase: React.FC<RoomShowcaseProps> = ({
       <div className="border-b border-white/5 pb-4">
         <RoomSelector
           rooms={rooms}
-          currentIndex={currentIndex}
-          onSelectIndex={setCurrentIndex}
+          currentIndex={activeIndex}
+          onSelectIndex={setActiveIndex}
         />
       </div>
 
