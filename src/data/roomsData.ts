@@ -90,7 +90,7 @@ export const ROOMS_DATA: RoomCategory[] = [
     isPlaceholderData: false,
     tariffEstimate: 'Starting ₹3,200 / night',
     occupancy: '3–5 Guests',
-    bedType: 'Multi-Bed Dormitory Layout',
+    bedType: 'Multi-Bed Configuration',
     details: [
       { label: 'Check-In', value: '12:00 PM' },
       { label: 'Check-Out', value: '10:00 AM' },

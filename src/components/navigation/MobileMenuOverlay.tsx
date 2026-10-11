@@ -62,13 +62,22 @@ export const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({
     >
       {/* Top Bar inside Overlay: Wordmark & Close button */}
       <div className="flex items-center justify-between border-b border-white/10 pb-6">
-        <div>
-          <span className="font-serif text-lg tracking-wide text-ivory">
-            HOTEL RAJWADA PALACE
-          </span>
-          <span className="block text-[10px] font-cinzel text-gold tracking-widest mt-0.5">
-            CHANDRAPUR · MAHARASHTRA
-          </span>
+        <div className="flex items-center gap-3">
+          <img
+            src="/images/rajwada-palace/rajwada-logo.png"
+            alt="Hotel Rajwada A Wedding Palace Logo"
+            width={40}
+            height={40}
+            className="w-10 h-10 object-contain drop-shadow-md flex-shrink-0"
+          />
+          <div>
+            <span className="font-serif text-lg tracking-wide text-ivory block">
+              HOTEL RAJWADA PALACE
+            </span>
+            <span className="block text-[10px] font-cinzel text-gold tracking-widest mt-0.5">
+              CHANDRAPUR · MAHARASHTRA
+            </span>
+          </div>
         </div>
 
         <button

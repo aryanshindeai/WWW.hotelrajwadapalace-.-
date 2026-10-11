@@ -14,20 +14,29 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
     <a
       href="#top"
       onClick={onClick}
-      className={`group inline-flex flex-col text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal transition-transform duration-300 ${className}`}
+      className={`group inline-flex items-center gap-2.5 sm:gap-3 text-left focus:outline-none focus-visible:ring-1 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal transition-transform duration-300 ${className}`}
       aria-label="Hotel Rajwada Palace - Home"
     >
+      {/* Official Royal Emblem Logo */}
+      <img
+        src="/images/rajwada-palace/rajwada-logo.png"
+        alt="Hotel Rajwada A Wedding Palace Logo"
+        width={44}
+        height={44}
+        className="w-9 h-9 sm:w-11 sm:h-11 object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] flex-shrink-0 group-hover:scale-105 transition-transform duration-300"
+      />
 
+      <div className="flex flex-col">
+        {/* Primary Architectural Wordmark */}
+        <span className="font-serif text-base sm:text-lg lg:text-xl tracking-[0.05em] text-ivory-light font-normal leading-tight group-hover:text-gold-light transition-colors duration-300 whitespace-nowrap">
+          HOTEL RAJWADA PALACE
+        </span>
 
-      {/* Primary Architectural Wordmark */}
-      <span className="font-serif text-lg sm:text-xl lg:text-2xl tracking-[0.06em] text-ivory-light font-normal leading-tight mt-0.5 group-hover:text-gold-light transition-colors duration-300">
-        HOTEL RAJWADA PALACE
-      </span>
-
-      {/* Location anchor tag */}
-      <span className="font-sans text-[9px] tracking-[0.22em] uppercase text-sand/80 mt-0.5 group-hover:text-sand transition-colors duration-300">
-        Chandrapur · Maharashtra
-      </span>
+        {/* Location / Destination tag */}
+        <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.22em] uppercase text-sand/80 mt-0.5 group-hover:text-sand transition-colors duration-300">
+          Chandrapur · Maharashtra
+        </span>
+      </div>
     </a>
   );
 };
