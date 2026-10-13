@@ -85,6 +85,8 @@ export function App() {
         onBookRoom={() => handleBookRoom()}
         onReserveTable={handleEnquireDining}
         onOrderFood={handleOrderFood}
+        onEnquireEvent={handleEnquireEvent}
+        onSelectSection={handleSelectSection}
         onExplore={handleExplore}
         scrollTargetId="overview"
       />
