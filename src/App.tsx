@@ -158,7 +158,11 @@ export function App() {
         />
 
         {/* Step 9 Dedicated Luxury Gallery Experience */}
-        <GallerySection />
+        <GallerySection
+          onBookRoom={handleBookRoom}
+          onEnquireDining={handleEnquireDining}
+          onEnquireEvent={handleEnquireEvent}
+        />
 
         {/* Step 10 Reviews / Trust Experience */}
         <TrustSection onExploreLocation={() => handleSelectSection('contact')} />
