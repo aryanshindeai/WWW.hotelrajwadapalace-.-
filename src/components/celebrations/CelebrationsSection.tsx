@@ -7,6 +7,7 @@ import { EventSupportingMedia } from './EventSupportingMedia';
 import { EventDetails } from './EventDetails';
 import { EventSelector } from './EventSelector';
 import { CELEBRATIONS_DATA } from '../../data/celebrationsData';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 interface CelebrationsSectionProps {
   onEnquire?: () => void;
@@ -42,38 +43,38 @@ export const CelebrationsSection: React.FC<CelebrationsSectionProps> = ({
         </div>
 
         {/* Event Category Selector */}
-        <div className="border-b border-white/5 pb-4 mb-8 sm:mb-12">
+        <ScrollReveal variant="fade-up" delayMs={50} durationMs={600} className="border-b border-white/5 pb-4 mb-8 sm:mb-12">
           <EventSelector
             categories={CELEBRATIONS_DATA}
             currentIndex={currentIndex}
             onSelectIndex={setCurrentIndex}
           />
-        </div>
+        </ScrollReveal>
 
         {/* High-Impact Asymmetric 12-Column Editorial Composition */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center mb-8 lg:mb-14">
           {/* Primary Dominant Image (7/12 cols ~ 60% visual attention) */}
-          <div className="lg:col-span-7">
+          <ScrollReveal variant="fade-up" delayMs={100} durationMs={700} className="lg:col-span-7">
             <EventMedia category={currentCategory} />
-          </div>
+          </ScrollReveal>
 
           {/* Event Narrative Details & CTA (5/12 cols ~ 40%) */}
-          <div className="lg:col-span-5">
+          <ScrollReveal variant="fade-up" delayMs={200} durationMs={700} className="lg:col-span-5">
             <EventDetails
               category={currentCategory}
               onEnquire={onEnquire}
               onExploreSpace={onExploreSpace}
             />
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* Secondary Supporting Visual Offset (Optional Detail Layer) */}
         {currentCategory.secondaryImageDesktop && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center pt-8 border-t border-white/5">
+          <ScrollReveal variant="fade-up" delayMs={150} durationMs={700} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center pt-8 border-t border-white/5">
             <div className="lg:col-span-6 lg:col-start-4">
               <EventSupportingMedia category={currentCategory} />
             </div>
-          </div>
+          </ScrollReveal>
         )}
       </Container>
     </Section>

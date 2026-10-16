@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from './Typography';
+import { ScrollReveal } from './motion/ScrollReveal';
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -23,14 +24,18 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   }[align];
 
   return (
-    <div className={`flex flex-col max-w-3xl ${alignmentClasses} ${className}`}>
+    <ScrollReveal
+      variant="fade-up"
+      durationMs={700}
+      className={`flex flex-col max-w-3xl ${alignmentClasses} ${className}`}
+    >
       {eyebrow && (
         <div className="flex items-center gap-3 mb-4">
-          <span className="w-8 h-[1px] bg-gold/50" aria-hidden="true" />
-          <Typography variant="label" className="tracking-[0.25em]">
+          <span className="w-8 h-[1px] bg-gold/60 animate-line-expand origin-left" aria-hidden="true" />
+          <Typography variant="label" className="tracking-[0.25em] text-gold font-medium">
             {eyebrow}
           </Typography>
-          <span className="w-8 h-[1px] bg-gold/50" aria-hidden="true" />
+          <span className="w-8 h-[1px] bg-gold/60 animate-line-expand origin-right" aria-hidden="true" />
         </div>
       )}
       <Typography
@@ -47,6 +52,6 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           {subtitle}
         </Typography>
       )}
-    </div>
+    </ScrollReveal>
   );
 };

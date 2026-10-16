@@ -161,7 +161,10 @@ ${orderLines}
           >
             <span>My Order</span>
             {totalItemsCount > 0 && (
-              <span className="bg-charcoal-deep text-gold px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold">
+              <span
+                key={totalItemsCount}
+                className="animate-cart-bounce bg-charcoal-deep text-gold px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold"
+              >
                 {totalItemsCount} · ₹{totalAmount}
               </span>
             )}

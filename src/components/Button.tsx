@@ -40,21 +40,21 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const variantStyles: Record<ButtonVariant, string> = {
-    // Primary CTA: Antique Gold accent surface, refined contrast, subtle elevation
+    // Primary CTA: Antique Gold accent surface, refined contrast, subtle elevation & light sweep
     primary:
-      'bg-gold text-charcoal-deep font-semibold border border-gold hover:bg-gold-light hover:border-gold-light active:bg-gold-muted active:border-gold-muted shadow-sm hover:shadow-[0_4px_20px_rgba(194,166,118,0.18)]',
+      'bg-gold text-charcoal-deep font-semibold border border-gold hover:bg-gold-light hover:border-gold-light active:bg-gold-muted active:border-gold-muted shadow-sm hover:shadow-[0_4px_24px_rgba(194,166,118,0.3)] shimmer-sweep overflow-hidden',
     
     // Secondary CTA: Transparent with charcoal/ivory border and subtle gold hover state
     secondary:
-      'bg-transparent text-ivory border border-ivory/20 hover:border-gold hover:text-gold active:bg-charcoal-surface/60',
+      'bg-transparent text-ivory border border-ivory/20 hover:border-gold hover:text-gold active:bg-charcoal-surface/60 transition-colors duration-300',
     
     // Outline: Subtle architectural outline
     outline:
-      'bg-transparent text-ivory-warm border border-charcoal-border hover:border-gold-muted hover:text-gold-light active:border-gold',
+      'bg-transparent text-ivory-warm border border-charcoal-border hover:border-gold-muted hover:text-gold-light active:border-gold transition-colors duration-300',
     
-    // Text CTA: Minimal underline reveal
+    // Text CTA: Minimal underline reveal with kinetic Skiper line
     text:
-      'bg-transparent text-gold hover:text-gold-light px-0 py-1 border-b border-gold/40 hover:border-gold active:border-gold-dark tracking-[0.18em]',
+      'skiper-link bg-transparent text-gold hover:text-gold-light px-0 py-1 tracking-[0.18em]',
   };
 
   const combinedClasses = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`.trim();

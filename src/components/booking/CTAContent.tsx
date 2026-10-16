@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography } from '../Typography';
 import { AvailabilityButton } from '../navigation/AvailabilityButton';
 import { Button } from '../Button';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 interface CTAContentProps {
   onCheckAvailability?: () => void;
@@ -17,7 +18,11 @@ export const CTAContent: React.FC<CTAContentProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`relative z-20 max-w-2xl lg:max-w-3xl text-left select-text ${className}`}>
+    <ScrollReveal
+      variant="fade-up"
+      durationMs={750}
+      className={`relative z-20 max-w-2xl lg:max-w-3xl text-left select-text ${className}`}
+    >
       {/* 1. Small Editorial Label */}
       <div className="flex items-center gap-3 mb-4 sm:mb-6">
         <span className="w-8 sm:w-12 h-[1px] bg-gold/60" aria-hidden="true" />
@@ -65,6 +70,6 @@ export const CTAContent: React.FC<CTAContentProps> = ({
       <p className="mt-8 pt-6 border-t border-white/10 text-[11px] sm:text-xs text-sand/80 font-sans tracking-wide">
         Near Major Gate, beside Sargam Petrol Pump, Durgapur Road, Chandrapur, Maharashtra 442401
       </p>
-    </div>
+    </ScrollReveal>
   );
 };

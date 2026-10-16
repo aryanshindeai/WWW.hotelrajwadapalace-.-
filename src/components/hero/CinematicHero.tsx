@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { HeroOverlay } from './HeroOverlay';
 import { Container } from '../Container';
 import { HOTEL_IMAGE_REGISTRY } from '../../data/hotelImageRegistry';
+import { SplitTextReveal } from '../motion/SplitTextReveal';
 
 export interface HeroSlide {
   id: string;
@@ -233,27 +234,35 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
           <div className="max-w-3xl lg:max-w-4xl text-left select-text">
             {/* Contextual Location Eyebrow & Verified Trust Tag */}
             <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-3 sm:mb-4">
-              <span className="w-8 sm:w-12 h-[1.5px] bg-gold" aria-hidden="true" />
-              <span className="font-cinzel tracking-[0.22em] text-[10px] sm:text-xs text-gold uppercase font-semibold">
+              <span className="w-8 sm:w-12 h-[1.5px] bg-gold animate-line-expand" aria-hidden="true" />
+              <span className="font-cinzel tracking-[0.22em] text-[10px] sm:text-xs text-gold uppercase font-semibold transition-all duration-500">
                 {activeSlide.badge}
               </span>
               <span className="hidden sm:inline-block text-white/30 font-light">|</span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-medium tracking-wide bg-gold/15 text-gold-light border border-gold/30">
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-sans font-medium tracking-wide bg-gold/15 text-gold-light border border-gold/30 hover:border-gold/60 transition-colors">
                 <span>★ 4.2 Rating</span>
                 <span className="text-white/40">·</span>
                 <span>460+ Verified Google Reviews</span>
               </span>
             </div>
 
-            {/* Slide Title with Maximum 2 Lines */}
+            {/* Slide Title with Split Word Reveal (Skiper UI & Animmaster Inspiration) */}
             <h1 className="mb-3 sm:mb-4">
               <span className="block font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight font-normal leading-[1.08] text-ivory-light">
-                {activeSlide.title}
+                <SplitTextReveal
+                  text={activeSlide.title}
+                  triggerKey={activeSlide.id}
+                  baseDelayMs={80}
+                  staggerMs={70}
+                />
               </span>
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-ivory-warm/90 font-light text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mb-6 sm:mb-8 max-w-2xl">
+            {/* Subtitle with Refined Blur-Fade Drift */}
+            <p
+              key={activeSlide.id}
+              className="text-ivory-warm/90 font-light text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mb-6 sm:mb-8 max-w-2xl animate-hero-reveal-2"
+            >
               {activeSlide.subtitle}
             </p>
 
@@ -263,11 +272,11 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
               <button
                 type="button"
                 onClick={onBookRoom}
-                className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-sans font-semibold uppercase tracking-[0.16em] bg-gold hover:bg-gold-light active:bg-gold-muted text-charcoal-deep border border-gold rounded-full transition-all duration-300 shadow-lg hover:shadow-gold/30 cursor-pointer animate-gold-glow hover:scale-[1.02] active:scale-[0.98]"
+                className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-sans font-semibold uppercase tracking-[0.16em] bg-gold hover:bg-gold-light active:bg-gold-muted text-charcoal-deep border border-gold rounded-full transition-all duration-300 shadow-lg hover:shadow-[0_8px_30px_rgba(194,166,118,0.45)] cursor-pointer shimmer-sweep animate-gold-glow hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span>Book a Room</span>
                 <svg
-                  className="w-4 h-4 text-charcoal-deep group-hover:translate-x-0.5 transition-transform"
+                  className="w-4 h-4 text-charcoal-deep group-hover:translate-x-1 transition-transform duration-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -311,10 +320,10 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
                 <button
                   type="button"
                   onClick={onExplore}
-                  className="hidden md:inline-flex items-center gap-1.5 px-4 py-3 text-xs uppercase tracking-[0.14em] text-sand/80 hover:text-ivory transition-colors cursor-pointer group"
+                  className="hidden md:inline-flex items-center gap-1.5 px-4 py-3 text-xs uppercase tracking-[0.14em] text-sand/80 hover:text-ivory transition-colors cursor-pointer group skiper-link"
                 >
                   <span>Explore the Hotel</span>
-                  <span className="group-hover:translate-y-0.5 transition-transform">↓</span>
+                  <span className="group-hover:translate-y-1 transition-transform duration-300 text-gold">↓</span>
                 </button>
               )}
             </div>

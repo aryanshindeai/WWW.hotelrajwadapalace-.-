@@ -19,3 +19,4 @@ export * from './HotelBookingModal';
 export * from './RestaurantEnquiryModal';
 export * from './FoodOrderModal';
 export * from './EventEnquiryModal';
+export * from './motion';

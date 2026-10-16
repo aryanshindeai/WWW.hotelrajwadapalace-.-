@@ -98,9 +98,10 @@ export const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({
           return (
             <div
               key={item.id}
-              className="group overflow-hidden"
+              className="group overflow-hidden animate-word-rise"
               style={{
-                animationDelay: `${idx * 60}ms`,
+                animationDelay: `${idx * 60 + 60}ms`,
+                animationFillMode: 'both',
               }}
             >
               <a
@@ -124,7 +125,7 @@ export const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({
                     {item.label}
                   </span>
                 </div>
-                <span className="font-cinzel text-xs tracking-widest text-sand/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="font-cinzel text-xs tracking-widest text-gold opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-1 group-hover:translate-x-0">
                   →
                 </span>
               </a>

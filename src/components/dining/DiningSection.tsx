@@ -7,6 +7,7 @@ import { DiningSupportingMedia } from './DiningSupportingMedia';
 import { DiningDetails } from './DiningDetails';
 import { DiningExperienceSelector } from './DiningExperienceSelector';
 import { DINING_DATA } from '../../data/diningData';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 interface DiningSectionProps {
   onCheckAvailability?: () => void;
@@ -44,35 +45,35 @@ export const DiningSection: React.FC<DiningSectionProps> = ({
         </div>
 
         {/* Venue Selector Navigation */}
-        <div className="border-b border-white/5 pb-4 mb-8 sm:mb-12">
+        <ScrollReveal variant="fade-up" delayMs={50} durationMs={600} className="border-b border-white/5 pb-4 mb-8 sm:mb-12">
           <DiningExperienceSelector
             venues={DINING_DATA}
             currentIndex={currentIndex}
             onSelectIndex={setCurrentIndex}
           />
-        </div>
+        </ScrollReveal>
 
         {/* 1. Large Dominant Feature Image Span (Full 12-column span) */}
-        <div className="mb-8 lg:mb-12">
+        <ScrollReveal variant="fade-up" delayMs={100} durationMs={700} className="mb-8 lg:mb-12">
           <DiningFeatureMedia dining={currentVenue} />
-        </div>
+        </ScrollReveal>
 
         {/* 2. Asymmetric Lower Composition: Supporting Detail (7 cols) + Editorial Information (5 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           {/* Supporting Photography / Atmosphere Detail */}
-          <div className="lg:col-span-7">
+          <ScrollReveal variant="fade-up" delayMs={150} durationMs={700} className="lg:col-span-7">
             <DiningSupportingMedia dining={currentVenue} />
-          </div>
+          </ScrollReveal>
 
           {/* Dining Narrative Details & Primary CTA */}
-          <div className="lg:col-span-5">
+          <ScrollReveal variant="fade-up" delayMs={220} durationMs={700} className="lg:col-span-5">
             <DiningDetails
               dining={currentVenue}
               onCheckAvailability={onCheckAvailability}
               onEnquireDining={onEnquireDining}
               onOrderFood={onOrderFood}
             />
-          </div>
+          </ScrollReveal>
         </div>
       </Container>
     </Section>

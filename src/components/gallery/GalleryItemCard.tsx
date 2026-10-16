@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { type GalleryItem } from '../../data/galleryData';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 interface GalleryItemCardProps {
   item: GalleryItem;
@@ -36,9 +37,15 @@ export const GalleryItemCard: React.FC<GalleryItemCardProps> = ({
   };
 
   return (
-    <figure
-      className={`group relative overflow-hidden bg-charcoal-deep rounded-xl border border-white/10 hover:border-gold/40 hover:shadow-[0_12px_36px_rgba(0,0,0,0.55)] transition-all duration-500 select-none ${colSpanClass} ${className}`}
+    <ScrollReveal
+      variant="fade-up"
+      delayMs={Math.min(index * 60, 360)}
+      durationMs={650}
+      className={`h-full ${colSpanClass} ${className}`}
     >
+      <figure
+        className="group relative h-full overflow-hidden bg-charcoal-deep rounded-xl border border-white/10 hover:border-gold/40 hover:shadow-[0_12px_36px_rgba(0,0,0,0.55)] transition-all duration-500 select-none"
+      >
       <button
         type="button"
         onClick={() => onOpenLightbox(index)}
@@ -120,5 +127,6 @@ export const GalleryItemCard: React.FC<GalleryItemCardProps> = ({
         </div>
       </button>
     </figure>
-  );
+  </ScrollReveal>
+);
 };

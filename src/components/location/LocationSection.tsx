@@ -6,6 +6,7 @@ import { PropertyAddressBlock } from './PropertyAddressBlock';
 import { ContactActions } from './ContactActions';
 import { LocationMap } from './LocationMap';
 import { HOTEL_CONTACT_DATA } from '../../data/locationData';
+import { ScrollReveal } from '../motion/ScrollReveal';
 
 interface LocationSectionProps {
   className?: string;
@@ -35,7 +36,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
         {/* Editorial 12-Column Split Layout: 5 cols Information + 7 cols Map Visualization */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column: Address, Phone & Contact Actions (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
+          <ScrollReveal variant="fade-up" delayMs={100} durationMs={700} className="lg:col-span-5 flex flex-col justify-between space-y-8">
             {/* Structured Editorial Address */}
             <PropertyAddressBlock
               address={HOTEL_CONTACT_DATA.address}
@@ -44,7 +45,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
             />
 
             {/* Direct Contact Phone line */}
-            <div className="p-4 border border-white/5 bg-charcoal-deep/60 space-y-1">
+            <div className="p-4 border border-white/5 bg-charcoal-deep/60 space-y-1 rounded-lg">
               <span className="text-[10px] font-cinzel tracking-[0.2em] text-gold uppercase block">
                 Direct Hotel Desk
               </span>
@@ -65,15 +66,15 @@ export const LocationSection: React.FC<LocationSectionProps> = ({
               phoneRaw={HOTEL_CONTACT_DATA.phoneRaw}
               directionsUrl={HOTEL_CONTACT_DATA.googleMapsDirectionsUrl}
             />
-          </div>
+          </ScrollReveal>
 
           {/* Right Column: Architectural Map View (7 cols) */}
-          <div className="lg:col-span-7">
+          <ScrollReveal variant="fade-up" delayMs={200} durationMs={700} className="lg:col-span-7">
             <LocationMap
               embedQuery={HOTEL_CONTACT_DATA.googleMapsEmbedQuery}
               directionsUrl={HOTEL_CONTACT_DATA.googleMapsDirectionsUrl}
             />
-          </div>
+          </ScrollReveal>
         </div>
       </Container>
     </Section>

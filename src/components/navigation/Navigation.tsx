@@ -101,9 +101,9 @@ export const Navigation: React.FC<NavigationProps> = ({
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           {/* Cylindrical / Pill Floating Container */}
           <div
-            className={`w-full rounded-full transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] flex items-center justify-between px-4 sm:px-6 py-2 sm:py-2.5 ${
+            className={`w-full rounded-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] flex items-center justify-between px-4 sm:px-6 py-2 sm:py-2.5 ${
               isScrolled
-                ? 'liquid-glass-nav bg-charcoal-deep/95 border border-white/15 shadow-[0_12px_40px_rgba(0,0,0,0.65)]'
+                ? 'liquid-glass-nav bg-charcoal-deep/95 border border-gold/25 shadow-[0_12px_40px_rgba(0,0,0,0.7),0_0_24px_rgba(194,166,118,0.08)]'
                 : 'bg-charcoal-deep/85 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.45)]'
             }`}
           >
@@ -129,11 +129,11 @@ export const Navigation: React.FC<NavigationProps> = ({
               {/* Call Now Button with Icon */}
               <a
                 href="tel:+919921019664"
-                className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 text-xs uppercase tracking-[0.12em] font-sans font-medium text-ivory/90 hover:text-gold border border-white/15 hover:border-gold/40 rounded-full transition-all duration-200 hover:bg-white/[0.04]"
+                className="group inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 text-xs uppercase tracking-[0.12em] font-sans font-medium text-ivory/90 hover:text-gold border border-white/15 hover:border-gold/40 rounded-full transition-all duration-300 hover:bg-white/[0.04]"
                 aria-label="Call Now: 099210 19664"
               >
                 <svg
-                  className="w-3.5 h-3.5 text-gold flex-shrink-0"
+                  className="w-3.5 h-3.5 text-gold flex-shrink-0 transform transition-transform duration-300 group-hover:rotate-12"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -154,7 +154,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 <button
                   type="button"
                   onClick={onReserveTable}
-                  className="hidden md:inline-flex items-center justify-center px-3.5 py-2 text-xs uppercase tracking-[0.12em] font-sans font-medium text-ivory/90 hover:text-gold border border-white/15 hover:border-gold/40 rounded-full transition-all duration-200 hover:bg-white/[0.04] cursor-pointer"
+                  className="hidden md:inline-flex items-center justify-center px-3.5 py-2 text-xs uppercase tracking-[0.12em] font-sans font-medium text-ivory/90 hover:text-gold border border-white/15 hover:border-gold/40 rounded-full transition-all duration-300 hover:bg-white/[0.04] cursor-pointer"
                 >
                   <span>Table</span>
                 </button>
@@ -165,7 +165,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 <button
                   type="button"
                   onClick={onOrderFood}
-                  className="hidden lg:inline-flex items-center justify-center px-3.5 py-2 text-xs uppercase tracking-[0.12em] font-sans font-medium text-emerald-300 hover:text-emerald-200 border border-emerald-500/30 hover:border-emerald-400 rounded-full transition-all duration-200 hover:bg-emerald-500/10 cursor-pointer"
+                  className="hidden lg:inline-flex items-center justify-center px-3.5 py-2 text-xs uppercase tracking-[0.12em] font-sans font-medium text-emerald-300 hover:text-emerald-200 border border-emerald-500/30 hover:border-emerald-400 rounded-full transition-all duration-300 hover:bg-emerald-500/10 cursor-pointer"
                 >
                   <span>Food Menu</span>
                 </button>
@@ -175,7 +175,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               <button
                 type="button"
                 onClick={onBookRoom}
-                className="group relative inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-xs uppercase tracking-[0.15em] font-sans font-semibold text-charcoal-deep bg-gold hover:bg-gold-light active:bg-gold-muted border border-gold hover:border-gold-light rounded-full transition-all duration-300 shadow-md hover:shadow-[0_4px_24px_rgba(194,166,118,0.35)] cursor-pointer"
+                className="shimmer-sweep group relative inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-xs uppercase tracking-[0.15em] font-sans font-semibold text-charcoal-deep bg-gold hover:bg-gold-light active:bg-gold-muted border border-gold hover:border-gold-light rounded-full transition-all duration-300 shadow-md hover:shadow-[0_4px_24px_rgba(194,166,118,0.35)] cursor-pointer overflow-hidden"
               >
                 <span>Book a Room</span>
               </button>

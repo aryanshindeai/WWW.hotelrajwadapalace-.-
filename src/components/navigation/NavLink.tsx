@@ -22,28 +22,27 @@ export const NavLink: React.FC<NavLinkProps> = ({
   return (
     <a
       href={item.href}
+      data-active={isActive ? 'true' : undefined}
       onClick={(e) => {
         if (onClick) {
           e.preventDefault();
           onClick(item.id);
         }
       }}
-      className={`group relative py-2.5 px-1 font-sans text-[13px] tracking-[0.1em] font-medium transition-colors duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-gold ${
+      className={`skiper-link group relative py-2 px-1 font-sans text-[13px] tracking-[0.1em] font-medium transition-colors duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-gold ${
         isActive ? 'text-gold font-semibold' : 'text-ivory/90 hover:text-gold-light'
       } ${className}`}
       aria-current={isActive ? 'page' : undefined}
     >
-      <span>{item.label}</span>
-
-      {/* Refined editorial line indicator */}
-      <span
-        className={`absolute bottom-0 left-0 right-0 h-[1px] bg-gold transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-          isActive
-            ? 'opacity-100 scale-x-100'
-            : 'opacity-0 scale-x-0 group-hover:opacity-80 group-hover:scale-x-100'
-        }`}
-        aria-hidden="true"
-      />
+      <span className="flex items-center gap-1.5">
+        {isActive && (
+          <span
+            className="w-1.5 h-1.5 rounded-full bg-gold shadow-[0_0_8px_rgba(218,165,32,0.8)] animate-pulse"
+            aria-hidden="true"
+          />
+        )}
+        <span>{item.label}</span>
+      </span>
     </a>
   );
 };
