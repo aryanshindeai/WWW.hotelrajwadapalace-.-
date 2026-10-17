@@ -36,6 +36,7 @@ export function App() {
   const [diningModalOpen, setDiningModalOpen] = useState(false);
   const [foodModalOpen, setFoodModalOpen] = useState(false);
   const [eventModalOpen, setEventModalOpen] = useState(false);
+  const [cart, setCart] = useState<Record<string, number>>({});
 
   const handleSelectSection = (id: string) => {
     setActiveSection(id);
@@ -151,10 +152,13 @@ export function App() {
           onExploreSpace={() => handleSelectSection('gallery')}
         />
 
-        {/* Step 8 The Tadoba & Chandrapur Experience */}
+        {/* Step 8 The Rajwada Dining Experience */}
         <ExperienceSection
-          onCheckAvailability={() => handleBookRoom()}
-          onExploreLocation={() => handleSelectSection('contact')}
+          onExploreMenu={handleOrderFood}
+          onOrderFood={handleOrderFood}
+          onReserveTable={handleEnquireDining}
+          cart={cart}
+          onUpdateCart={setCart}
         />
 
         {/* Step 9 Dedicated Luxury Gallery Experience */}
@@ -195,6 +199,8 @@ export function App() {
       <FoodOrderModal
         isOpen={foodModalOpen}
         onClose={() => setFoodModalOpen(false)}
+        cart={cart}
+        onUpdateCart={setCart}
       />
 
       <EventEnquiryModal

@@ -9,20 +9,35 @@ import { Button } from './Button';
 interface FoodOrderModalProps {
   isOpen: boolean;
   onClose: () => void;
+  cart?: Record<string, number>;
+  onUpdateCart?: React.Dispatch<React.SetStateAction<Record<string, number>>> | ((newCart: Record<string, number> | ((prev: Record<string, number>) => Record<string, number>)) => void);
 }
 
 export const FoodOrderModal: React.FC<FoodOrderModalProps> = ({
   isOpen,
   onClose,
+  cart: externalCart,
+  onUpdateCart,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<MenuCategorySlug>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [cart, setCart] = useState<Record<string, number>>({});
+  const [internalCart, setInternalCart] = useState<Record<string, number>>({});
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [orderType, setOrderType] = useState<'dine-in' | 'takeaway'>('dine-in');
   const [tableOrAddress, setTableOrAddress] = useState('');
   const [mobileTab, setMobileTab] = useState<'menu' | 'cart'>('menu');
+
+  // Active cart is controlled if externalCart provided, otherwise internal
+  const cart = externalCart ?? internalCart;
+
+  const updateCart = (updater: (prev: Record<string, number>) => Record<string, number>) => {
+    if (onUpdateCart) {
+      (onUpdateCart as any)(updater);
+    } else {
+      setInternalCart(updater);
+    }
+  };
 
   // Filter items by category and search query
   const filteredItems = useMemo(() => {
@@ -40,11 +55,11 @@ export const FoodOrderModal: React.FC<FoodOrderModalProps> = ({
   if (!isOpen) return null;
 
   const addToCart = (id: string) => {
-    setCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+    updateCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
   };
 
   const removeFromCart = (id: string) => {
-    setCart((prev) => {
+    updateCart((prev) => {
       const next = { ...prev };
       if (next[id] > 1) {
         next[id] -= 1;
@@ -56,7 +71,7 @@ export const FoodOrderModal: React.FC<FoodOrderModalProps> = ({
   };
 
   const clearCart = () => {
-    setCart({});
+    updateCart(() => ({}));
   };
 
   const totalAmount = Object.entries(cart).reduce((sum, [id, qty]) => {

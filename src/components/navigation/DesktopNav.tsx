@@ -17,7 +17,7 @@ export const DesktopNav: React.FC<DesktopNavProps> = ({
   return (
     <nav
       aria-label="Main Navigation"
-      className={`hidden lg:flex items-center space-x-5 xl:space-x-8 ${className}`}
+      className={`hidden lg:flex items-center space-x-4 xl:space-x-6 ${className}`}
     >
       {items.map((item) => (
         <NavLink

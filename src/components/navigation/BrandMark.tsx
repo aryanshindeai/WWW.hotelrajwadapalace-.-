@@ -26,14 +26,14 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
         className="w-9 h-9 sm:w-11 sm:h-11 object-contain drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] flex-shrink-0 group-hover:scale-105 transition-transform duration-300"
       />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col justify-center">
         {/* Primary Architectural Wordmark */}
-        <span className="font-serif text-base sm:text-lg lg:text-xl tracking-[0.05em] text-ivory-light font-normal leading-tight group-hover:text-gold-light transition-colors duration-300 whitespace-nowrap">
+        <span className="font-serif text-sm sm:text-base lg:text-[17px] tracking-[0.08em] text-[#F6F0E7] font-medium leading-none group-hover:text-[#D8BD8A] transition-colors duration-300 whitespace-nowrap">
           HOTEL RAJWADA PALACE
         </span>
 
         {/* Location / Destination tag */}
-        <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.22em] uppercase text-sand/80 mt-0.5 group-hover:text-sand transition-colors duration-300">
+        <span className="font-sans text-[8px] sm:text-[8.5px] tracking-[0.24em] uppercase text-sand/80 mt-1 font-medium group-hover:text-sand transition-colors duration-300">
           Chandrapur · Maharashtra
         </span>
       </div>

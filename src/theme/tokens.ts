@@ -5,7 +5,7 @@
 
 export const colors = {
   charcoal: {
-    deep: '#090A0C',
+    deep: '#101317',
     DEFAULT: '#0F1012',
     surface: '#17181B',
     border: '#24262B',
@@ -13,14 +13,14 @@ export const colors = {
   },
   ivory: {
     light: '#FDFAF5',
-    DEFAULT: '#F7F5F0',
-    warm: '#EFECE6',
+    DEFAULT: '#F6F0E7',
+    warm: '#EFE9DF',
     muted: '#D8D4CC',
   },
   gold: {
-    light: '#D6BD90',
-    DEFAULT: '#C2A676',
-    muted: '#9E855A',
+    light: '#D8BD8A',
+    DEFAULT: '#C7A66B',
+    muted: '#9B8053',
     dark: '#7A6540',
   },
   neutral: {

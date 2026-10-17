@@ -32,14 +32,14 @@ export const HeroMedia: React.FC<HeroMediaProps> = ({
         <source
           type="image/webp"
           media="(max-width: 767px)"
-          srcSet="/images/rajwada-palace/verified/rajwada-hero-master-640.webp 640w, /images/rajwada-palace/verified/rajwada-hero-master.webp 1024w"
+          srcSet="/images/rajwada-palace/verified/rajwada-gallery-facade-master-640.webp 640w, /images/rajwada-palace/verified/rajwada-gallery-facade-master-1080.webp 1080w"
           sizes="100vw"
         />
         {/* Desktop WebP cinematic crop (768px and above) */}
         <source
           type="image/webp"
           media="(min-width: 768px)"
-          srcSet="/images/rajwada-palace/verified/rajwada-hero-master.webp 1024w"
+          srcSet="/images/rajwada-palace/verified/rajwada-gallery-facade-master-1600.webp 1600w, /images/rajwada-palace/verified/rajwada-gallery-facade-master-1080.webp 1080w"
           sizes="100vw"
         />
         {/* Mobile vertical crop fallback (below 768px) */}
