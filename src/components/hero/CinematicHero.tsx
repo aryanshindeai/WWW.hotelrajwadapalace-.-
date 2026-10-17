@@ -19,11 +19,11 @@ interface CinematicHeroProps {
   className?: string;
 }
 
-/** Mandatory slide rotation interval: exactly 3000 milliseconds (3 seconds) */
-const SLIDE_DURATION_MS = 3000;
+/** Slide rotation interval: exactly 5000 milliseconds (5 seconds) */
+const SLIDE_DURATION_MS = 5000;
 
-/** Clean crossfade transition duration: 450 milliseconds (400–500ms range) */
-const CROSSFADE_MS = 450;
+/** Smooth crossfade transition duration: 500 milliseconds (0.5 seconds) */
+const CROSSFADE_MS = 500;
 
 export const CinematicHero: React.FC<CinematicHeroProps> = ({
   onBookRoom,
@@ -45,7 +45,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
     setCurrentIndex((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
   }, []);
 
-  // --- Continuous auto-advance: exactly every 3000 ms, single active timer, zero leaks ---
+  // --- Continuous auto-advance: exactly every 5000 ms (5 seconds), single active timer, zero leaks ---
   useEffect(() => {
     // Respect prefers-reduced-motion — halt automatic transitions
     const prefersReduced =
