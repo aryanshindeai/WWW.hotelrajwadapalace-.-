@@ -45,22 +45,14 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
     setCurrentIndex((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
   }, []);
 
-  // --- Continuous auto-advance: exactly every 5000 ms (5 seconds), single active timer, zero leaks ---
+  // --- Continuous auto-advance: guaranteed every 5000 ms (5 seconds) ---
   useEffect(() => {
-    // Respect prefers-reduced-motion — halt automatic transitions
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
-
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
     }, SLIDE_DURATION_MS);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [currentIndex]);
+    return () => clearInterval(timer);
+  }, []);
 
   // Pre-decode next slide image ahead of time to ensure flicker-free, instant crossfades
   useEffect(() => {

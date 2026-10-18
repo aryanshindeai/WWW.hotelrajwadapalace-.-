@@ -82,9 +82,9 @@ body {
   color: #FDFAF5;
 }
 
-/* Reduced motion accessibility */
+/* Reduced motion accessibility (exempting hero carousel so slide rotation functions) */
 @media (prefers-reduced-motion: reduce) {
-  *,
+  *:not(#hero, #hero *),
   ::before,
   ::after {
     animation-duration: 0.01ms !important;
