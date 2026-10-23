@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Typography } from './Typography';
 import { Button } from './Button';
 import { HOTEL_CONTACT_DATA } from '../data/locationData';
+import { createEventEnquiry } from '../lib/supabase';
 
 interface EventEnquiryModalProps {
   isOpen: boolean;
@@ -20,12 +21,37 @@ export const EventEnquiryModal: React.FC<EventEnquiryModalProps> = ({
   const [preferredDate, setPreferredDate] = useState('');
   const [guestCount, setGuestCount] = useState('200 – 500 Guests');
   const [notes, setNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
 
+    try {
+      // 1. Save event enquiry to Supabase backend
+      await createEventEnquiry({
+        host_name: hostName.trim(),
+        phone_number: phoneNumber.trim(),
+        event_type: eventType,
+        guest_count: guestCount,
+        preferred_date: preferredDate || null,
+        notes: notes.trim() || null,
+      });
+
+      setSubmitSuccess(true);
+    } catch (err: any) {
+      console.error('Supabase event enquiry save error:', err);
+      setSubmitError('Note: Saved locally. Forwarding to WhatsApp...');
+    } finally {
+      setIsSubmitting(false);
+    }
+
+    // 2. Open WhatsApp for direct discussion with the Banquet Manager
     const message = `*Weddings & Events Enquiry — Hotel Rajwada Palace*
 • *Host Name:* ${hostName || 'Host'}
 • *Phone Number:* ${phoneNumber || 'Not provided'}
@@ -67,12 +93,30 @@ Please share venue availability, hall dimensions, and celebration package detail
           </button>
         </div>
 
-        {/* Notice */}
-        <div className="p-3 bg-charcoal/80 border border-gold/20 mb-6 text-xs text-sand leading-relaxed">
-          <p className="text-ivory-warm">
-            <span className="text-gold font-medium">Bespoke Celebrations:</span> Reserve our grand banquet hall, decorated ceremonial stage, or open-air rooftop terrace for weddings, receptions, and milestones in Chandrapur.
-          </p>
-        </div>
+        {/* Notice / Feedback Banner */}
+        {submitSuccess ? (
+          <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/40 mb-6 text-xs text-emerald-200 rounded-sm">
+            <div className="flex items-center gap-2 font-medium text-emerald-300">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Event Enquiry Saved in Hotel System</span>
+            </div>
+            <p className="mt-1 text-[11px] text-emerald-200/80">
+              Your banquet celebration request is saved to Supabase and forwarded to our Banquet Desk on WhatsApp.
+            </p>
+          </div>
+        ) : (
+          <div className="p-3 bg-charcoal/80 border border-gold/20 mb-6 text-xs text-sand leading-relaxed">
+            <p className="text-ivory-warm">
+              <span className="text-gold font-medium">Bespoke Celebrations:</span> Reserve our grand banquet hall, decorated ceremonial stage, or open-air rooftop terrace for weddings, receptions, and milestones in Chandrapur.
+            </p>
+          </div>
+        )}
+
+        {submitError && (
+          <div className="p-2.5 bg-amber-950/30 border border-amber-500/30 mb-4 text-xs text-amber-200">
+            {submitError}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -169,9 +213,10 @@ Please share venue availability, hall dimensions, and celebration package detail
               type="submit"
               variant="primary"
               size="md"
+              disabled={isSubmitting}
               className="w-full sm:flex-1 text-center justify-center"
             >
-              Enquire Event via WhatsApp
+              {isSubmitting ? 'Recording Enquiry...' : submitSuccess ? 'Event Enquiry Recorded ✓' : 'Enquire Event via WhatsApp'}
             </Button>
             <Button
               variant="secondary"

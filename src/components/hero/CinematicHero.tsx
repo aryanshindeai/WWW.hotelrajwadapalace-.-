@@ -167,7 +167,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className={`relative w-full h-[100svh] min-h-[660px] max-h-[1050px] flex items-end overflow-hidden bg-[#101317] select-none ${className}`}
+      className={`relative w-full h-[100svh] min-h-[580px] sm:min-h-[640px] md:min-h-[680px] max-h-[1050px] flex items-end overflow-hidden bg-[#101317] select-none ${className}`}
     >
       {/* 1. Ultra-Sharp Crossfading Image Slides — no scale transform, full-quality eager load */}
       <div className="absolute inset-0 select-none pointer-events-none" aria-hidden="true">
@@ -181,44 +181,49 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
                 isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
               }`}
             >
-              <picture
-                className={`w-full h-full block transition-transform duration-[3500ms] ease-out will-change-transform ${
-                  isActive ? 'scale-100' : 'scale-105'
-                }`}
-              >
-                {/* Full-resolution WebP — desktop (1600px) */}
+              <picture className="w-full h-full block">
+                {/* Full-resolution WebP — desktop (1024px and above) */}
                 <source
                   type="image/webp"
                   media="(min-width: 1024px)"
                   srcSet={slide.srcWebpDesktop}
                 />
-                {/* Mid-resolution WebP — tablet */}
+                {/* High-resolution WebP — tablet (768px - 1023px) */}
                 {slide.srcWebpTablet && (
                   <source
                     type="image/webp"
                     media="(min-width: 768px) and (max-width: 1023px)"
-                    srcSet={slide.srcWebpTablet}
+                    srcSet={`${slide.srcWebpTablet} 1080w, ${slide.srcWebpDesktop} 2560w`}
+                    sizes="100vw"
                   />
                 )}
-                {/* Mobile WebP */}
+                {/* Mobile WebP — responsive Retina density support */}
                 <source
                   type="image/webp"
                   media="(max-width: 767px)"
-                  srcSet={slide.srcWebpMobile}
+                  srcSet={`${slide.srcWebpMobile} 640w, ${slide.srcWebpTablet || slide.srcWebpDesktop} 1080w`}
+                  sizes="100vw"
                 />
-                {/* Fallback full-size JPEG — no downscale */}
+                {/* Fallback full-resolution original JPEG */}
                 <source media="(min-width: 768px)" srcSet={slide.srcDesktop} />
                 <source media="(max-width: 767px)" srcSet={slide.srcMobile} />
                 <img
                   src={slide.srcDesktop}
                   alt={slide.alt}
-                  width={1920}
-                  height={1080}
+                  width={2560}
+                  height={1912}
                   fetchPriority={idx === 0 ? "high" : "auto"}
                   loading="eager"
                   decoding="async"
-                  style={{ imageRendering: 'high-quality' } as unknown as React.CSSProperties}
-                  className="w-full h-full object-cover object-[center_35%] md:object-[center_30%] lg:object-[center_35%]"
+                  className={`w-full h-full object-cover transition-[object-position] duration-700 ease-out ${
+                    slide.id === 'hero-facade'
+                      ? 'object-[center_28%] md:object-[center_30%] lg:object-[center_35%]'
+                      : slide.id === 'hero-weddings'
+                      ? 'object-[center_22%] md:object-[center_28%] lg:object-[center_32%]'
+                      : slide.id === 'hero-rooms'
+                      ? 'object-[center_35%] md:object-[center_32%] lg:object-[center_35%]'
+                      : 'object-[center_26%] md:object-[center_30%] lg:object-[center_35%]'
+                  }`}
                 />
               </picture>
             </div>
@@ -230,7 +235,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
       <HeroOverlay />
 
       {/* 3. Lower-Left Foreground Content */}
-      <div className="relative z-20 w-full pb-14 sm:pb-20 md:pb-24 lg:pb-28 pt-32 sm:pt-36 lg:pt-40">
+      <div className="relative z-20 w-full pb-14 sm:pb-16 md:pb-20 lg:pb-24 pt-24 sm:pt-32 lg:pt-36">
         <Container size="xl">
           <HeroContent
             key={activeSlide.id}
@@ -252,7 +257,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
 
       {/* 4. Minimal Dot Progress Indicators — auto-runs, no controls */}
       <div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2"
+        className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 sm:gap-2"
         aria-hidden="true"
       >
         {HERO_SLIDES.map((_, idx) => {

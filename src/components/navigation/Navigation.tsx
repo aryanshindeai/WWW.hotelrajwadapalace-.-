@@ -4,6 +4,7 @@ import { DesktopNav } from './DesktopNav';
 import { MobileMenuButton } from './MobileMenuButton';
 import { MobileMenuOverlay } from './MobileMenuOverlay';
 import { type NavItem } from './NavLink';
+import { trackCallClick } from '../../lib/supabase';
 
 // Primary clear navigation links
 export const MAIN_NAV_ITEMS: NavItem[] = [
@@ -129,6 +130,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               {/* Direct Call Reception Button */}
               <a
                 href="tel:+919921019664"
+                onClick={() => trackCallClick('header')}
                 className="group inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 text-xs uppercase tracking-[0.12em] font-sans font-medium text-[#F6F0E7]/90 hover:text-[#C7A66B] border border-white/15 hover:border-[#C7A66B]/40 rounded-full transition-all duration-300 hover:bg-white/[0.04]"
                 aria-label="Call Now: 099210 19664"
               >

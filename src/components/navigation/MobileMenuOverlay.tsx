@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { type NavItem } from './NavLink';
+import { trackCallClick } from '../../lib/supabase';
 
 interface MobileMenuOverlayProps {
   isOpen: boolean;
@@ -135,52 +136,41 @@ export const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({
       </nav>
 
       {/* Bottom Conversion Action & Direct Contact */}
-      <div className="pt-6 border-t border-white/10 space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          {/* Call Now */}
-          <a
-            href="tel:+919921019664"
-            className="flex items-center justify-center gap-2 py-3 px-4 text-xs uppercase tracking-widest font-sans font-medium text-ivory border border-white/20 hover:border-gold hover:text-gold transition-colors text-center"
-          >
-            <svg
-              className="w-4 h-4 text-gold"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-              />
-            </svg>
-            <span>Call Now</span>
-          </a>
-
-          {/* WhatsApp */}
-          <a
-            href="https://wa.me/919921019664?text=Hello%20Hotel%20Rajwada%20Palace%2C%20I%20would%20like%20to%20inquire%20about%20a%20booking"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 py-3 px-4 text-xs uppercase tracking-widest font-sans font-medium text-emerald-400 border border-emerald-500/30 hover:border-emerald-400 transition-colors text-center"
-          >
-            <span>WhatsApp</span>
-          </a>
-        </div>
-
-        {/* Book a Room Primary Button */}
+      <div className="pt-6 border-t border-white/10 space-y-3">
+        {/* Book a Room Primary Highlighted Action */}
         <button
           type="button"
           onClick={() => {
             onClose();
             onBookRoom?.();
           }}
-          className="w-full py-3.5 px-6 text-xs uppercase tracking-[0.2em] font-sans font-medium bg-gold text-charcoal-deep hover:bg-gold-light transition-all text-center"
+          className="w-full py-3.5 px-6 text-xs uppercase tracking-[0.2em] font-sans font-semibold bg-gold text-charcoal-deep hover:bg-gold-light rounded-full transition-all text-center shadow-lg cursor-pointer"
         >
           Book a Room
         </button>
+
+        {/* Call Now Secondary Action */}
+        <a
+          href="tel:+919921019664"
+          onClick={() => trackCallClick('mobile_menu')}
+          className="flex items-center justify-center gap-2 py-3 px-4 text-xs uppercase tracking-widest font-sans font-medium text-ivory border border-white/20 hover:border-gold hover:text-gold rounded-full transition-colors text-center"
+        >
+          <svg
+            className="w-4 h-4 text-gold"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+            />
+          </svg>
+          <span>Call Now: 099210 19664</span>
+        </a>
 
         <div className="pt-2 text-[11px] text-sand/70 text-center">
           Near Major Gate, Durgapur Road, Chandrapur · Direct: 099210 19664

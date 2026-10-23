@@ -3,6 +3,7 @@ import { Typography } from '../Typography';
 import { AvailabilityButton } from '../navigation/AvailabilityButton';
 import { Button } from '../Button';
 import { ScrollReveal } from '../motion/ScrollReveal';
+import { trackCallClick } from '../../lib/supabase';
 
 interface CTAContentProps {
   onCheckAvailability?: () => void;
@@ -59,6 +60,7 @@ export const CTAContent: React.FC<CTAContentProps> = ({
           size="lg"
           as="a"
           href={`tel:${phoneRaw}`}
+          onClick={() => trackCallClick('booking_cta_section')}
           className="w-full sm:w-auto text-center bg-charcoal-deep/60 backdrop-blur-sm border-white/20 hover:border-gold hover:text-gold"
           aria-label={`Call the hotel at ${phoneDisplay}`}
         >

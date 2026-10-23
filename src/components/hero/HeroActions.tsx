@@ -1,11 +1,12 @@
 import React from 'react';
+import { HOTEL_CONTACT_DATA } from '../../data/locationData';
+import { trackCallClick } from '../../lib/supabase';
 
 interface HeroActionsProps {
   onBookRoom?: () => void;
   onExploreWeddings?: () => void;
   onExploreRooms?: () => void;
   onExploreDining?: () => void;
-  onDirectCall?: () => void;
   primaryLabel?: string;
   secondaryLabel?: string;
   tertiaryLabel?: string;
@@ -15,24 +16,19 @@ interface HeroActionsProps {
 export const HeroActions: React.FC<HeroActionsProps> = ({
   onBookRoom,
   onExploreWeddings,
-  onExploreRooms,
-  onExploreDining,
   primaryLabel = 'BOOK A ROOM',
   secondaryLabel = 'WEDDINGS & EVENTS',
-  tertiaryLabel = 'EXPLORE DINING',
   className = '',
 }) => {
-  const isDiningAction = tertiaryLabel.toLowerCase().includes('dining');
-
   return (
     <div className={`space-y-4 animate-hero-reveal-4 ${className}`}>
       {/* Primary Action Button Cluster */}
       <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1">
-        {/* 1. Primary CTA: BOOK A ROOM → */}
+        {/* 1. Primary Highlighted CTA: BOOK A ROOM → */}
         <button
           type="button"
           onClick={onBookRoom}
-          className="group relative inline-flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-sans font-semibold uppercase tracking-[0.16em] bg-[#C7A66B] hover:bg-[#D8BD8A] active:bg-[#9B8053] text-[#101317] rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(199,166,107,0.35)] hover:shadow-[0_12px_32px_rgba(199,166,107,0.5)] cursor-pointer shimmer-sweep hover:scale-[1.02] active:scale-[0.98]"
+          className="group relative inline-flex items-center justify-center gap-2.5 w-full sm:w-auto min-h-[48px] px-7 sm:px-9 py-3.5 sm:py-4 text-xs sm:text-sm font-sans font-semibold uppercase tracking-[0.16em] bg-[#C7A66B] hover:bg-[#D8BD8A] active:bg-[#9B8053] text-[#101317] rounded-full transition-all duration-300 shadow-[0_8px_24px_rgba(199,166,107,0.35)] hover:shadow-[0_12px_32px_rgba(199,166,107,0.5)] cursor-pointer shimmer-sweep hover:scale-[1.02] active:scale-[0.98] text-center"
         >
           <span>{primaryLabel}</span>
           <span
@@ -43,46 +39,15 @@ export const HeroActions: React.FC<HeroActionsProps> = ({
           </span>
         </button>
 
-        {/* 2. Secondary CTA: WEDDINGS & EVENTS */}
-        {onExploreWeddings && (
-          <button
-            type="button"
-            onClick={onExploreWeddings}
-            className="inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3.5 sm:py-4 text-xs sm:text-sm font-sans font-medium uppercase tracking-[0.14em] bg-[#101317]/85 hover:bg-[#C7A66B]/15 backdrop-blur-md text-[#F6F0E7] hover:text-[#C7A66B] border border-white/20 hover:border-[#C7A66B]/60 rounded-full transition-all duration-300 cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
-          >
-            <span>{secondaryLabel}</span>
-          </button>
-        )}
-
-        {/* 3. Additional CTA: EXPLORE DINING ↓ or EXPLORE ROOMS */}
-        {(onExploreDining || onExploreRooms) && (
-          <button
-            type="button"
-            onClick={onExploreDining || onExploreRooms}
-            className="group inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 sm:py-4 text-xs sm:text-sm font-sans font-medium uppercase tracking-[0.14em] bg-white/[0.05] hover:bg-white/[0.12] backdrop-blur-md text-[#F6F0E7]/85 hover:text-[#F6F0E7] border border-white/10 hover:border-[#C7A66B]/40 rounded-full transition-all duration-300 cursor-pointer"
-          >
-            <span>{tertiaryLabel}</span>
-            <span
-              className={`text-xs transition-transform duration-300 ${
-                isDiningAction ? 'group-hover:translate-y-0.5' : 'group-hover:translate-x-0.5'
-              }`}
-              aria-hidden="true"
-            >
-              {isDiningAction ? '↓' : '→'}
-            </span>
-          </button>
-        )}
-      </div>
-
-      {/* Direct Phone / Contact Action for Instant Hospitality Assistance */}
-      <div className="flex items-center gap-2 text-xs text-sand/80 font-sans pt-1">
+        {/* 2. Secondary Contact Action: CALL NOW */}
         <a
-          href="tel:+919921019664"
-          className="inline-flex items-center gap-1.5 hover:text-[#C7A66B] transition-colors duration-200 cursor-pointer py-1"
-          aria-label="Call Hotel Reception: 099210 19664"
+          href={`tel:${HOTEL_CONTACT_DATA.phoneRaw}`}
+          onClick={() => trackCallClick('hero')}
+          className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto min-h-[48px] px-6 sm:px-7 py-3.5 sm:py-4 text-xs sm:text-sm font-sans font-medium uppercase tracking-[0.14em] bg-[#101317]/85 hover:bg-[#C7A66B]/15 backdrop-blur-md text-[#F6F0E7] hover:text-[#C7A66B] border border-white/25 hover:border-[#C7A66B]/60 rounded-full transition-all duration-300 cursor-pointer text-center"
+          aria-label={`Call the hotel reception: ${HOTEL_CONTACT_DATA.phoneDisplay}`}
         >
           <svg
-            className="w-3.5 h-3.5 text-[#C7A66B]"
+            className="w-4 h-4 text-[#C7A66B] flex-shrink-0 transition-transform duration-300 group-hover:rotate-12"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -95,9 +60,26 @@ export const HeroActions: React.FC<HeroActionsProps> = ({
               d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
             />
           </svg>
-          <span className="tracking-wide">Direct Hotel Reception:</span>
-          <span className="font-semibold text-[#F6F0E7] hover:text-[#C7A66B]">+91 99210 19664</span>
+          <span>CALL NOW: {HOTEL_CONTACT_DATA.phoneDisplay}</span>
         </a>
+
+        {/* 3. Subtle tertiary exploration link: Weddings / Celebrations */}
+        {onExploreWeddings && (
+          <button
+            type="button"
+            onClick={onExploreWeddings}
+            className="hidden lg:inline-flex items-center justify-center gap-1.5 px-5 py-3 text-xs uppercase tracking-[0.14em] font-sans font-medium text-sand/80 hover:text-ivory hover:bg-white/[0.05] rounded-full transition-colors cursor-pointer"
+          >
+            <span>{secondaryLabel}</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        )}
+      </div>
+
+      {/* Direct Hotel Address / Front Desk Note */}
+      <div className="flex items-center gap-2 text-[11px] sm:text-xs text-sand/75 font-sans pt-1">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
+        <span>Near Major Gate, Durgapur Road, Chandrapur · Direct Desk Active</span>
       </div>
     </div>
   );

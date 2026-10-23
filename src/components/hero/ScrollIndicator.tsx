@@ -34,7 +34,7 @@ export const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
 
   return (
     <div
-      className={`absolute bottom-8 sm:bottom-10 right-6 sm:right-12 lg:right-16 z-20 transition-opacity duration-700 pointer-events-auto ${
+      className={`hidden sm:block absolute bottom-8 sm:bottom-10 right-6 sm:right-12 lg:right-16 z-20 transition-opacity duration-700 pointer-events-auto ${
         isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       } ${className}`}
     >

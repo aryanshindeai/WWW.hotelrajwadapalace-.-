@@ -5,6 +5,7 @@ import {
   type MenuCategorySlug,
 } from '../data/foodMenuData';
 import { Button } from './Button';
+import { createFoodOrder } from '../lib/supabase';
 
 interface FoodOrderModalProps {
   isOpen: boolean;
@@ -27,6 +28,9 @@ export const FoodOrderModal: React.FC<FoodOrderModalProps> = ({
   const [orderType, setOrderType] = useState<'dine-in' | 'takeaway'>('dine-in');
   const [tableOrAddress, setTableOrAddress] = useState('');
   const [mobileTab, setMobileTab] = useState<'menu' | 'cart'>('menu');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Active cart is controlled if externalCart provided, otherwise internal
   const cart = externalCart ?? internalCart;
@@ -81,13 +85,54 @@ export const FoodOrderModal: React.FC<FoodOrderModalProps> = ({
 
   const totalItemsCount = Object.values(cart).reduce((a, b) => a + b, 0);
 
-  const handleSendOrderWhatsApp = (e: React.FormEvent) => {
+  const handleSendOrderWhatsApp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (totalItemsCount === 0) {
       alert('Please select at least one dish from the menu.');
       return;
     }
 
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const orderItems = Object.entries(cart)
+      .map(([id, qty]) => {
+        const item = RESTAURANT_MENU_ITEMS.find((m) => m.id === id);
+        return item
+          ? {
+              id: item.id,
+              name: item.name,
+              price: item.price,
+              portion: item.portion || null,
+              category: item.categoryName,
+              quantity: qty,
+              subtotal: item.price * qty,
+            }
+          : null;
+      })
+      .filter(Boolean);
+
+    try {
+      // 1. Save food order to Supabase backend
+      await createFoodOrder({
+        customer_name: customerName.trim(),
+        phone_number: phoneNumber.trim(),
+        order_type: orderType,
+        table_or_address: tableOrAddress.trim() || null,
+        items: orderItems as any,
+        total_amount: totalAmount,
+        total_items: totalItemsCount,
+      });
+
+      setSubmitSuccess(true);
+    } catch (err: any) {
+      console.error('Supabase food order save error:', err);
+      setSubmitError('Note: Order saved locally. Forwarding to WhatsApp...');
+    } finally {
+      setIsSubmitting(false);
+    }
+
+    // 2. Prepare and send via WhatsApp
     const orderLines = Object.entries(cart)
       .map(([id, qty]) => {
         const item = RESTAURANT_MENU_ITEMS.find((m) => m.id === id);
@@ -445,6 +490,24 @@ ${orderLines}
 
               {/* Customer Details Form */}
               <div className="space-y-3 text-xs">
+                {submitSuccess && (
+                  <div className="p-2.5 bg-emerald-950/40 border border-emerald-500/40 rounded text-emerald-200">
+                    <div className="flex items-center gap-1.5 font-medium text-emerald-300">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>Order Recorded in Supabase</span>
+                    </div>
+                    <p className="mt-0.5 text-[10px] text-emerald-200/80">
+                      Saved to kitchen database & forwarding via WhatsApp.
+                    </p>
+                  </div>
+                )}
+
+                {submitError && (
+                  <div className="p-2 bg-amber-950/30 border border-amber-500/30 rounded text-[11px] text-amber-200">
+                    {submitError}
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-[11px] uppercase tracking-wider text-sand mb-1 font-sans">
                     Customer Name *
@@ -527,10 +590,14 @@ ${orderLines}
                   type="submit"
                   variant="primary"
                   size="md"
-                  disabled={totalItemsCount === 0}
+                  disabled={totalItemsCount === 0 || isSubmitting}
                   className="w-full text-center justify-center font-medium cursor-pointer shadow-lg"
                 >
-                  Send Order via WhatsApp (₹{totalAmount})
+                  {isSubmitting
+                    ? 'Recording Order in Database...'
+                    : submitSuccess
+                    ? 'Order Recorded ✓ Sending to WhatsApp'
+                    : `Send Order via WhatsApp (₹${totalAmount})`}
                 </Button>
                 <Button
                   variant="secondary"

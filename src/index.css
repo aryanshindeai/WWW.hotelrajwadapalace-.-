@@ -109,11 +109,9 @@ body {
 @keyframes heroMediaFade {
   0% {
     opacity: 0;
-    transform: scale(1.045);
   }
   100% {
     opacity: 1;
-    transform: scale(1.0);
   }
 }
 
@@ -140,8 +138,8 @@ body {
 }
 
 .animate-hero-media {
-  animation: heroMediaFade 1800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform, opacity;
+  animation: heroMediaFade 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity;
 }
 
 .animate-hero-reveal-1 {
