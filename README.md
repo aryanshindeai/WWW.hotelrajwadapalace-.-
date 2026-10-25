@@ -1,4 +1,4 @@
-# Hotel Rajwada Palace (hotel-rajwada-palace-03)
+# WWW.hotelrajwadapalace-.-
 
 Official website for Hotel Rajwada Palace, Chandrapur, Maharashtra. Built with React, TypeScript, Vite, and Tailwind CSS.
 
