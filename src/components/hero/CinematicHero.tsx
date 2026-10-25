@@ -36,23 +36,11 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   const heroRef = useRef<HTMLElement>(null);
   const autoPlayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const animFrameRef = useRef<number | null>(null);
   const targetTiltRef = useRef({ x: 0, y: 0 });
-
-  // Detect reduced-motion preferences
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-      setIsReducedMotion(mq.matches);
-      const listener = (e: MediaQueryListEvent) => setIsReducedMotion(e.matches);
-      mq.addEventListener('change', listener);
-      return () => mq.removeEventListener('change', listener);
-    }
-  }, []);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
@@ -103,8 +91,6 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
 
   // Smooth lerp mouse tilt for desktop 3D perspective
   useEffect(() => {
-    if (isReducedMotion) return;
-
     let isMounted = true;
     const lerp = (start: number, end: number, factor: number) => start + (end - start) * factor;
 
@@ -126,10 +112,10 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
       isMounted = false;
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [isReducedMotion]);
+  }, []);
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (isReducedMotion || e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch') return;
     const rect = heroRef.current?.getBoundingClientRect();
     if (!rect) return;
 
@@ -249,9 +235,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
       <div
         className="absolute inset-0 select-none pointer-events-none will-change-transform"
         style={{
-          transform: !isReducedMotion
-            ? `perspective(1000px) rotateX(${tilt.x.toFixed(2)}deg) rotateY(${tilt.y.toFixed(2)}deg) scale3d(1.02, 1.02, 1)`
-            : undefined,
+          transform: `perspective(1000px) rotateX(${tilt.x.toFixed(2)}deg) rotateY(${tilt.y.toFixed(2)}deg) scale3d(1.02, 1.02, 1)`,
           transition: 'transform 0.15s ease-out',
         }}
         aria-hidden="true"
@@ -262,10 +246,10 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
             <div
               key={slide.id}
               style={{ transitionDuration: `${CROSSFADE_MS}ms` }}
-              className={`absolute inset-0 transition-all ease-in-out ${
+              className={`absolute inset-0 transition-opacity ease-in-out ${
                 isActive
-                  ? 'opacity-100 z-10 scale-100 pointer-events-auto'
-                  : 'opacity-0 z-0 scale-[1.03] pointer-events-none'
+                  ? 'opacity-100 z-10 pointer-events-auto'
+                  : 'opacity-0 z-0 pointer-events-none'
               }`}
             >
               <picture className="w-full h-full block">
@@ -311,7 +295,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
                   loading={idx === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                   className={`w-full h-full object-cover filter brightness-[0.92] contrast-[1.06] ${
-                    isActive && !isReducedMotion ? 'animate-hero-zoom' : 'scale-100'
+                    isActive ? 'animate-hero-zoom' : 'scale-100'
                   }`}
                 />
               </picture>
@@ -327,9 +311,7 @@ export const CinematicHero: React.FC<CinematicHeroProps> = ({
       <div
         className="relative z-20 w-full px-4 sm:px-6 pt-24 sm:pt-28 pb-16 sm:pb-20 flex items-center justify-center"
         style={{
-          transform: !isReducedMotion
-            ? `translate3d(${(-tilt.y * 3.5).toFixed(1)}px, ${(-tilt.x * 3.5).toFixed(1)}px, 0)`
-            : undefined,
+          transform: `translate3d(${(-tilt.y * 3.5).toFixed(1)}px, ${(-tilt.x * 3.5).toFixed(1)}px, 0)`,
           transition: 'transform 0.15s ease-out',
         }}
       >
