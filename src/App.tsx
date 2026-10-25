@@ -11,14 +11,11 @@ import {
   LocationSection,
   BookingCTASection,
   Footer,
-  Container,
-  Section,
-  SectionHeading,
-  Typography,
   HotelBookingModal,
   RestaurantEnquiryModal,
   FoodOrderModal,
   EventEnquiryModal,
+  OverviewSection,
 } from './components';
 
 
@@ -36,6 +33,7 @@ export function App() {
   const [diningModalOpen, setDiningModalOpen] = useState(false);
   const [foodModalOpen, setFoodModalOpen] = useState(false);
   const [eventModalOpen, setEventModalOpen] = useState(false);
+  const [selectedEventType, setSelectedEventType] = useState('Grand Wedding & Mandap Ceremony');
   const [cart, setCart] = useState<Record<string, number>>({});
 
   const handleSelectSection = (id: string) => {
@@ -59,7 +57,8 @@ export function App() {
     setFoodModalOpen(true);
   };
 
-  const handleEnquireEvent = () => {
+  const handleEnquireEvent = (categoryTitle?: string) => {
+    if (categoryTitle) setSelectedEventType(categoryTitle);
     setEventModalOpen(true);
   };
 
@@ -93,51 +92,17 @@ export function App() {
       />
 
       {/* Main Content Sections: Overview & Architectural Anchor Foundations */}
-      <main id="overview" className="flex-1">
-        {/* Step 3 Overview & Architectural Verification */}
-        <Section spacing="md" variant="surface">
-          <Container size="xl">
-            <SectionHeading
-              eyebrow="Architectural Presence"
-              title="A Distinguished Sanctuary in Chandrapur"
-              subtitle="Reflecting genuine palatial grandeur and bespoke hospitality at the gateway to the Tadoba corridor."
-              align="center"
-              className="mb-14"
-            />
+      <main className="flex-1">
+        {/* Step 3 Overview & Architectural Verification with Warm Luxury Ivory Card */}
+        <OverviewSection
+          onBookRoom={() => handleBookRoom()}
+          onExploreEvents={handleEnquireEvent}
+          onExploreRooms={() => handleSelectSection('rooms')}
+        />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sand text-sm leading-relaxed border-t border-b border-white/5 py-10">
-              <div className="space-y-3">
-                <span className="font-cinzel text-xs text-gold tracking-[0.2em] uppercase block">
-                  Location & Gateway
-                </span>
-                <Typography variant="body" className="text-ivory-warm">
-                  Situated near Major Gate beside Sargam Petrol Pump on Durgapur Road, Hotel Rajwada Palace welcomes business travelers, family gatherings, and wilderness explorers visiting Chandrapur.
-                </Typography>
-              </div>
-
-              <div className="space-y-3">
-                <span className="font-cinzel text-xs text-gold tracking-[0.2em] uppercase block">
-                  Celebrations & Banquets
-                </span>
-                <Typography variant="body" className="text-ivory-warm">
-                  Verified as a premier hotel and banquet hall, providing spacious celebratory grounds for weddings, formal receptions, and distinguished gatherings.
-                </Typography>
-              </div>
-
-              <div className="space-y-3">
-                <span className="font-cinzel text-xs text-gold tracking-[0.2em] uppercase block">
-                  Guest Distinction
-                </span>
-                <Typography variant="body" className="text-ivory-warm">
-                  Recognized with a 4.2 rating across 460 verified Google reviews, reflecting thoughtful service and genuine regional hospitality.
-                </Typography>
-              </div>
-            </div>
-          </Container>
-        </Section>
 
         {/* Step 5 Rooms & Suites Experience */}
-        <RoomsSection onCheckAvailability={() => handleBookRoom()} />
+        <RoomsSection onCheckAvailability={handleBookRoom} />
 
         {/* Step 6 Dining Experience (Separated from Hotel Booking) */}
         <DiningSection
@@ -206,6 +171,7 @@ export function App() {
       <EventEnquiryModal
         isOpen={eventModalOpen}
         onClose={() => setEventModalOpen(false)}
+        initialEventType={selectedEventType}
       />
     </div>
   );

@@ -12,20 +12,14 @@ export const HeroOverlay: React.FC<HeroOverlayProps> = ({
       className={`absolute inset-0 pointer-events-none select-none z-10 ${className}`}
       aria-hidden="true"
     >
-      {/* 1. Top subtle gradient: preserves floating navigation bar and crest readability */}
-      <div className="absolute inset-x-0 top-0 h-32 sm:h-40 bg-gradient-to-b from-[#101317]/70 via-[#101317]/20 to-transparent" />
+      {/* 1. Subtle top atmospheric gradient ensuring navigation & brandmark readability */}
+      <div className="absolute inset-x-0 top-0 h-32 sm:h-40 bg-gradient-to-b from-black/75 via-black/30 to-transparent" />
 
-      {/* 2. Desktop editorial asymmetric left gradient: clear legibility for headline while letting ultra 8K lighting and architecture shine */}
-      <div className="hidden lg:block absolute inset-y-0 left-0 w-[48%] bg-gradient-to-r from-[#101317]/70 via-[#101317]/25 to-transparent" />
+      {/* 2. Luminous cinematic radial vignette — keeps focal architecture glowing while focusing depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0)_20%,_rgba(0,0,0,0.42)_100%)]" />
 
-      {/* 3. Tablet left gradient (medium devices) */}
-      <div className="hidden md:block lg:hidden absolute inset-y-0 left-0 w-3/5 bg-gradient-to-r from-[#101317]/70 via-[#101317]/30 to-transparent" />
-
-      {/* 4. Mobile bottom-to-top gradient: balanced anchor for typography without dulling the image */}
-      <div className="md:hidden absolute inset-x-0 bottom-0 h-[68%] bg-gradient-to-t from-[#101317]/85 via-[#101317]/35 to-transparent" />
-
-      {/* 5. Seamless bottom fade into page body */}
-      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#101317] to-transparent" />
+      {/* 3. Bottom cinematic grounding gradient that provides contrast for CTAs and leads into the next section */}
+      <div className="absolute inset-x-0 bottom-0 h-36 sm:h-48 bg-gradient-to-t from-[#0b0c0e] via-[#0b0c0e]/40 to-transparent" />
     </div>
   );
 };

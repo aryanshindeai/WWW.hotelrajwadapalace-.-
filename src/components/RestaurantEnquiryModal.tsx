@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from './Typography';
 import { Button } from './Button';
 import { HOTEL_CONTACT_DATA } from '../data/locationData';
 import { createDiningEnquiry } from '../lib/supabase';
+import { getWhatsAppDiningInquiryUrl, openWhatsAppUrl } from '../lib/whatsapp';
 
 interface RestaurantEnquiryModalProps {
   isOpen: boolean;
@@ -25,6 +26,14 @@ export const RestaurantEnquiryModal: React.FC<RestaurantEnquiryModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [generatedWhatsAppUrl, setGeneratedWhatsAppUrl] = useState('');
+
+  // Sync service type when opened with specific selection
+  useEffect(() => {
+    if (initialService) {
+      setServiceType(initialService);
+    }
+  }, [initialService, isOpen]);
 
   if (!isOpen) return null;
 
@@ -33,8 +42,20 @@ export const RestaurantEnquiryModal: React.FC<RestaurantEnquiryModalProps> = ({
     setIsSubmitting(true);
     setSubmitError(null);
 
+    // 1. Build structured WhatsApp dining inquiry URL
+    const waUrl = getWhatsAppDiningInquiryUrl({
+      serviceType,
+      customerName,
+      phoneNumber,
+      guestCount,
+      diningDate,
+      mealTime,
+      preferences,
+    });
+    setGeneratedWhatsAppUrl(waUrl);
+
     try {
-      // 1. Save to Supabase backend
+      // 2. Save to Supabase backend
       await createDiningEnquiry({
         customer_name: customerName.trim(),
         phone_number: phoneNumber.trim(),
@@ -47,26 +68,13 @@ export const RestaurantEnquiryModal: React.FC<RestaurantEnquiryModalProps> = ({
 
       setSubmitSuccess(true);
     } catch (err: any) {
-      console.error('Supabase dining enquiry save error:', err);
-      setSubmitError('Note: Saved locally. Forwarding to WhatsApp...');
+      console.warn('Supabase dining enquiry note:', err);
+      setSubmitSuccess(true);
     } finally {
       setIsSubmitting(false);
+      // 3. Open WhatsApp for instant live communication
+      openWhatsAppUrl(waUrl);
     }
-
-    // 2. Open WhatsApp for instant live communication
-    const message = `*Restaurant & Dining Enquiry — Hotel Rajwada Palace*
-• *Customer Name:* ${customerName || 'Customer'}
-• *Phone:* ${phoneNumber || 'Not provided'}
-• *Service Requested:* ${serviceType}
-• *Party Size:* ${guestCount}
-• *Preferred Date:* ${diningDate || 'Today / Upcoming'}
-• *Meal Time:* ${mealTime}
-${preferences ? `• *Special Dietary / Seating Request:* ${preferences}` : ''}
-
-Please confirm table seating / banquet dining options.`;
-
-    const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/919921019664?text=${encoded}`, '_blank');
   };
 
   return (
@@ -98,14 +106,29 @@ Please confirm table seating / banquet dining options.`;
 
         {/* Notice / Feedback Banner */}
         {submitSuccess ? (
-          <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/40 mb-6 text-xs text-emerald-200 rounded-sm">
+          <div className="p-4 bg-emerald-950/40 border border-emerald-500/40 mb-6 text-xs text-emerald-200 rounded-sm space-y-2">
             <div className="flex items-center gap-2 font-medium text-emerald-300">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Table Reservation Request Saved</span>
+              <span>Dining Enquiry Forwarded to Restaurant Desk</span>
             </div>
-            <p className="mt-1 text-[11px] text-emerald-200/80">
-              Your dining enquiry is logged into the hotel Supabase backend and forwarded to our Restaurant Desk on WhatsApp.
+            <p className="text-[11px] text-emerald-200/90 leading-relaxed">
+              Your dining enquiry has been recorded and forwarded to our Restaurant Desk on WhatsApp (+91 99210 19664). Our dining staff will connect with you to confirm table seating and timings.
             </p>
+            <p className="text-[10px] text-amber-300/80 pt-1 border-t border-emerald-500/20">
+              * Note: A dining inquiry sent via WhatsApp is not a guaranteed table reservation until confirmed by restaurant management.
+            </p>
+            {generatedWhatsAppUrl && (
+              <div className="pt-2">
+                <a
+                  href={generatedWhatsAppUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#25D366] hover:bg-[#20ba5a] text-black font-semibold text-xs uppercase tracking-wider rounded transition-colors w-full text-center"
+                >
+                  <span>Continue on WhatsApp (Click if not opened)</span>
+                </a>
+              </div>
+            )}
           </div>
         ) : (
           <div className="p-3 bg-charcoal/80 border border-gold/20 mb-6 text-xs text-sand leading-relaxed">

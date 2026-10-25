@@ -47,7 +47,7 @@ export const ROOM_SHOWCASE_ITEMS: RoomShowcaseItem[] = [
 
 interface RoomMarqueeTrackProps {
   onSelectRoom?: (index: number) => void;
-  onBookRoom?: () => void;
+  onBookRoom?: (roomName?: string) => void;
   className?: string;
 }
 
@@ -59,8 +59,6 @@ export const RoomMarqueeTrack: React.FC<RoomMarqueeTrackProps> = ({
   const handleCardClick = (item: RoomShowcaseItem) => {
     if (typeof item.roomIndex === 'number' && onSelectRoom) {
       onSelectRoom(item.roomIndex);
-    } else if (onBookRoom) {
-      onBookRoom();
     }
   };
 
@@ -119,11 +117,19 @@ export const RoomMarqueeTrack: React.FC<RoomMarqueeTrackProps> = ({
                   </p>
 
                   <div className="flex items-center justify-between pt-1 border-t border-white/10">
-                    <span className="text-[10px] uppercase font-mono tracking-widest text-sand/80 group-hover:text-ivory transition-colors">
-                      View Details &amp; Book
-                    </span>
-                    <span className="text-gold text-xs group-hover:translate-x-1.5 transition-transform duration-300">
-                      →
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onBookRoom?.(item.title);
+                      }}
+                      className="text-[10px] uppercase font-mono tracking-widest text-gold hover:text-gold-light transition-colors cursor-pointer flex items-center gap-1"
+                    >
+                      <span>Book Room</span>
+                      <span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
+                    <span className="text-[10px] uppercase font-mono tracking-widest text-sand/60">
+                      View Details
                     </span>
                   </div>
                 </div>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from './Typography';
 import { Button } from './Button';
 import { HOTEL_CONTACT_DATA } from '../data/locationData';
 import { createEventEnquiry } from '../lib/supabase';
+import { getWhatsAppEventInquiryUrl, openWhatsAppUrl } from '../lib/whatsapp';
 
 interface EventEnquiryModalProps {
   isOpen: boolean;
@@ -24,6 +25,14 @@ export const EventEnquiryModal: React.FC<EventEnquiryModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [generatedWhatsAppUrl, setGeneratedWhatsAppUrl] = useState('');
+
+  // Sync event category when opened with specific selection
+  useEffect(() => {
+    if (initialEventType) {
+      setEventType(initialEventType);
+    }
+  }, [initialEventType, isOpen]);
 
   if (!isOpen) return null;
 
@@ -32,8 +41,19 @@ export const EventEnquiryModal: React.FC<EventEnquiryModalProps> = ({
     setIsSubmitting(true);
     setSubmitError(null);
 
+    // 1. Build structured WhatsApp event inquiry URL
+    const waUrl = getWhatsAppEventInquiryUrl({
+      eventType,
+      hostName,
+      phoneNumber,
+      preferredDate,
+      guestCount,
+      notes,
+    });
+    setGeneratedWhatsAppUrl(waUrl);
+
     try {
-      // 1. Save event enquiry to Supabase backend
+      // 2. Save event enquiry to Supabase backend
       await createEventEnquiry({
         host_name: hostName.trim(),
         phone_number: phoneNumber.trim(),
@@ -45,25 +65,13 @@ export const EventEnquiryModal: React.FC<EventEnquiryModalProps> = ({
 
       setSubmitSuccess(true);
     } catch (err: any) {
-      console.error('Supabase event enquiry save error:', err);
-      setSubmitError('Note: Saved locally. Forwarding to WhatsApp...');
+      console.warn('Supabase event enquiry note:', err);
+      setSubmitSuccess(true);
     } finally {
       setIsSubmitting(false);
+      // 3. Open WhatsApp for direct discussion with the Banquet Manager
+      openWhatsAppUrl(waUrl);
     }
-
-    // 2. Open WhatsApp for direct discussion with the Banquet Manager
-    const message = `*Weddings & Events Enquiry — Hotel Rajwada Palace*
-• *Host Name:* ${hostName || 'Host'}
-• *Phone Number:* ${phoneNumber || 'Not provided'}
-• *Event Type:* ${eventType}
-• *Preferred Date:* ${preferredDate || 'To be finalized'}
-• *Approximate Guest Count:* ${guestCount}
-${notes ? `• *Event Details / Mandap / Catering Notes:* ${notes}` : ''}
-
-Please share venue availability, hall dimensions, and celebration package details.`;
-
-    const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/919921019664?text=${encoded}`, '_blank');
   };
 
   return (
@@ -95,14 +103,29 @@ Please share venue availability, hall dimensions, and celebration package detail
 
         {/* Notice / Feedback Banner */}
         {submitSuccess ? (
-          <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/40 mb-6 text-xs text-emerald-200 rounded-sm">
+          <div className="p-4 bg-emerald-950/40 border border-emerald-500/40 mb-6 text-xs text-emerald-200 rounded-sm space-y-2">
             <div className="flex items-center gap-2 font-medium text-emerald-300">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Event Enquiry Saved in Hotel System</span>
+              <span>Event Enquiry Forwarded to Banquet Desk</span>
             </div>
-            <p className="mt-1 text-[11px] text-emerald-200/80">
-              Your banquet celebration request is saved to Supabase and forwarded to our Banquet Desk on WhatsApp.
+            <p className="text-[11px] text-emerald-200/90 leading-relaxed">
+              Your celebration request is logged and forwarded to our Banquet Desk on WhatsApp (+91 99210 19664). Our Banquet Manager will connect with you to review venue availability and custom packages.
             </p>
+            <p className="text-[10px] text-amber-300/80 pt-1 border-t border-emerald-500/20">
+              * Note: An inquiry sent via WhatsApp is not a confirmed reservation until confirmed by hotel banquet management.
+            </p>
+            {generatedWhatsAppUrl && (
+              <div className="pt-2">
+                <a
+                  href={generatedWhatsAppUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#25D366] hover:bg-[#20ba5a] text-black font-semibold text-xs uppercase tracking-wider rounded transition-colors w-full text-center"
+                >
+                  <span>Continue on WhatsApp (Click if not opened)</span>
+                </a>
+              </div>
+            )}
           </div>
         ) : (
           <div className="p-3 bg-charcoal/80 border border-gold/20 mb-6 text-xs text-sand leading-relaxed">

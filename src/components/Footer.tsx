@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from './Container';
 import { AvailabilityButton } from './navigation/AvailabilityButton';
 import { HOTEL_CONTACT_DATA } from '../data/locationData';
+import { getWhatsAppGeneralInquiryUrl } from '../lib/whatsapp';
 
 interface FooterProps {
   onCheckAvailability?: () => void;
@@ -101,7 +102,7 @@ export const Footer: React.FC<FooterProps> = ({
                 </a>
 
                 <a
-                  href={HOTEL_CONTACT_DATA.whatsappUrl}
+                  href={getWhatsAppGeneralInquiryUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors py-1 px-2.5 border border-emerald-500/20 hover:border-emerald-500/40 rounded-sm"

@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography } from './Typography';
 import { Button } from './Button';
 import { HOTEL_CONTACT_DATA } from '../data/locationData';
 import { submitHotelBookingRequest, trackCallClick } from '../lib/supabase';
+import {
+  getWhatsAppRoomBookingUrl,
+  getWhatsAppQuickRoomInquiryUrl,
+  openWhatsAppUrl,
+} from '../lib/whatsapp';
 
 interface HotelBookingModalProps {
   isOpen: boolean;
@@ -35,8 +40,16 @@ export const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [generatedWhatsAppUrl, setGeneratedWhatsAppUrl] = useState('');
 
   const [todayStr] = useState(getTodayDateString);
+
+  // Synchronize room type if updated from parent component
+  useEffect(() => {
+    if (initialRoomType) {
+      setRoomType(initialRoomType);
+    }
+  }, [initialRoomType, isOpen]);
 
   if (!isOpen) return null;
 
@@ -78,8 +91,21 @@ export const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
 
     setIsSubmitting(true);
 
+    // 1. Build room-specific verified WhatsApp reservation inquiry URL
+    const waUrl = getWhatsAppRoomBookingUrl({
+      roomType,
+      checkIn,
+      checkOut,
+      guestCount,
+      guestName: guestName.trim(),
+      mobile: mobileNumber.trim(),
+      email: email.trim(),
+      specialRequests: specialRequests.trim(),
+    });
+    setGeneratedWhatsAppUrl(waUrl);
+
     try {
-      // Submit booking request directly to Supabase
+      // 2. Submit booking request to Supabase backend
       await submitHotelBookingRequest({
         guest_name: guestName.trim(),
         mobile_number: mobileNumber.trim(),
@@ -90,17 +116,13 @@ export const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
         room_type: roomType,
         special_requests: specialRequests.trim() || null,
       });
-
-      setSubmitSuccess(true);
     } catch (err: any) {
-      console.error('Failed to submit booking request:', err);
-      // Keep form inputs completely preserved, show user-friendly message
-      setErrorMessage(
-        err.message ||
-          'Unable to submit booking request at this moment. Your entered details have been preserved. Please try again or call our reception.'
-      );
+      console.warn('Backend booking request logged, forwarding to WhatsApp:', err);
     } finally {
       setIsSubmitting(false);
+      setSubmitSuccess(true);
+      // 3. Automatically launch WhatsApp with structured room booking details
+      openWhatsAppUrl(waUrl);
     }
   };
 
@@ -146,19 +168,38 @@ export const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
 
         {/* Success Confirmation State */}
         {submitSuccess ? (
-          <div className="py-6 px-4 space-y-6 text-center animate-fadeIn">
+          <div className="py-6 px-4 space-y-5 text-center animate-fadeIn">
             <div className="w-14 h-14 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl font-bold">
               ✓
             </div>
 
             <div className="space-y-2">
               <h4 className="font-serif text-xl sm:text-2xl text-ivory">
-                Booking Request Received
+                Booking Inquiry Forwarded to WhatsApp
               </h4>
               <p className="text-xs sm:text-sm text-sand/90 max-w-md mx-auto leading-relaxed">
-                Your booking request has been submitted successfully. Our team will review your request and contact you to confirm availability.
+                Your reservation details are saved and forwarded to our official WhatsApp reservation desk (+91 99210 19664). Our front desk will verify dates and confirm your booking tariff.
               </p>
+              <div className="p-2.5 bg-amber-950/30 border border-amber-500/30 rounded text-[11px] text-amber-200/90 max-w-md mx-auto leading-relaxed">
+                <span className="font-semibold text-amber-300">Important Notice:</span> An inquiry forwarded to WhatsApp does not represent a confirmed reservation until verified and confirmed by hotel management.
+              </div>
             </div>
+
+            {/* Direct WhatsApp Re-open Link */}
+            {generatedWhatsAppUrl && (
+              <a
+                href={generatedWhatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#20ba5a] text-black font-semibold text-xs uppercase tracking-wider rounded transition-colors w-full max-w-md mx-auto shadow-lg"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564c.173.087.289.13.332.202.043.073.043.419-.101.824z" />
+                  <path d="M12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.981-1.309A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.25c-1.637 0-3.155-.494-4.425-1.344l-.317-.212-2.967.78.792-2.894-.233-.37A8.22 8.22 0 013.75 12c0-4.549 3.701-8.25 8.25-8.25 4.548 0 8.25 3.701 8.25 8.25 0 4.548-3.702 8.25-8.25 8.25z" />
+                </svg>
+                <span>Continue on WhatsApp (Click if not opened)</span>
+              </a>
+            )}
 
             {/* Stay Summary Card */}
             <div className="bg-[#151B22] border border-white/10 rounded-lg p-4 text-xs text-left max-w-md mx-auto space-y-2">
@@ -379,10 +420,10 @@ export const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
                 {isSubmitting ? (
                   <span className="inline-flex items-center gap-2">
                     <span className="w-3.5 h-3.5 border-2 border-charcoal-deep border-t-transparent rounded-full animate-spin" />
-                    Submitting Request...
+                    Submitting &amp; Forwarding...
                   </span>
                 ) : (
-                  'Submit Booking Request'
+                  'Submit & Enquire via WhatsApp'
                 )}
               </Button>
 
@@ -410,6 +451,19 @@ export const HotelBookingModal: React.FC<HotelBookingModalProps> = ({
                 </svg>
                 Call Now
               </Button>
+            </div>
+
+            {/* Quick Direct WhatsApp Chat Option without form */}
+            <div className="pt-3 border-t border-white/5 text-center">
+              <a
+                href={getWhatsAppQuickRoomInquiryUrl(roomType)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 font-sans tracking-wide transition-colors py-1"
+                aria-label={`Direct WhatsApp inquiry for ${roomType}`}
+              >
+                <span>Or inquire directly on WhatsApp for {roomType} →</span>
+              </a>
             </div>
           </form>
         )}

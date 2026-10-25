@@ -15,7 +15,7 @@ interface GallerySectionProps {
   className?: string;
   onBookRoom?: (roomName?: string) => void;
   onEnquireDining?: () => void;
-  onEnquireEvent?: () => void;
+  onEnquireEvent?: (categoryTitle?: string) => void;
 }
 
 export const GallerySection: React.FC<GallerySectionProps> = ({

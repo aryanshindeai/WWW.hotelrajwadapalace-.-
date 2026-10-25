@@ -5,7 +5,7 @@ import { Button } from '../Button';
 
 interface RoomInformationProps {
   room: RoomCategory;
-  onCheckAvailability?: () => void;
+  onCheckAvailability?: (roomName?: string) => void;
   className?: string;
 }
 
@@ -100,7 +100,7 @@ export const RoomInformation: React.FC<RoomInformationProps> = ({
         <Button
           variant="primary"
           size="md"
-          onClick={onCheckAvailability}
+          onClick={() => onCheckAvailability?.(room.title)}
           className="w-full sm:w-auto"
         >
           Check Availability

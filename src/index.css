@@ -411,4 +411,47 @@ html {
   filter: blur(0);
 }
 
+/* 9. Cinematic Hero Ken Burns Zoom Out (inspired by The Grand Icon) */
+@keyframes heroZoomOut {
+  0% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+@keyframes heroRevealUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-zoom {
+  animation: heroZoomOut 6.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: transform;
+}
+
+.animate-hero-reveal-1 {
+  animation: heroRevealUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+}
+
+.animate-hero-reveal-2 {
+  animation: heroRevealUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 250ms forwards;
+}
+
+.animate-hero-reveal-3 {
+  animation: heroRevealUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 380ms forwards;
+}
+
+.animate-hero-reveal-4 {
+  animation: heroRevealUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 500ms forwards;
+}
+
+
 

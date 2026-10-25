@@ -7,7 +7,7 @@ import { RoomMarqueeTrack } from './RoomMarqueeTrack';
 import { ROOMS_DATA } from '../../data/roomsData';
 
 interface RoomsSectionProps {
-  onCheckAvailability?: () => void;
+  onCheckAvailability?: (roomName?: string) => void;
   className?: string;
 }
 

@@ -9,7 +9,7 @@ interface GalleryLightboxProps {
   onSelectIndex: (index: number) => void;
   onBookRoom?: (roomName?: string) => void;
   onEnquireDining?: () => void;
-  onEnquireEvent?: () => void;
+  onEnquireEvent?: (categoryTitle?: string) => void;
 }
 
 export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
@@ -115,7 +115,7 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
             type="button"
             onClick={() => {
               onClose();
-              onEnquireEvent();
+              onEnquireEvent(currentItem.title);
             }}
             className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold/15 hover:bg-gold text-gold hover:text-charcoal-deep border border-gold/40 text-xs font-cinzel tracking-wider uppercase transition-all duration-300 cursor-pointer"
           >

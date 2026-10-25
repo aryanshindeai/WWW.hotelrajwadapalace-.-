@@ -5,7 +5,7 @@ import { Button } from '../Button';
 
 interface EventDetailsProps {
   category: CelebrationCategory;
-  onEnquire?: () => void;
+  onEnquire?: (categoryTitle?: string) => void;
   onExploreSpace?: () => void;
   className?: string;
 }
@@ -80,7 +80,7 @@ export const EventDetails: React.FC<EventDetailsProps> = ({
         <Button
           variant="primary"
           size="md"
-          onClick={onEnquire}
+          onClick={() => onEnquire?.(category.title)}
           className="w-full sm:w-auto"
         >
           Enquire for an Event

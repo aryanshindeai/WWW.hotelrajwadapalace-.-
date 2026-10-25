@@ -1,4 +1,5 @@
 import React from 'react';
+import { getWhatsAppGeneralInquiryUrl } from '../../lib/whatsapp';
 
 interface ContactActionsProps {
   phoneDisplay: string;
@@ -12,7 +13,7 @@ export const ContactActions: React.FC<ContactActionsProps> = ({
   phoneDisplay: _phoneDisplay,
   phoneRaw,
   directionsUrl,
-  whatsappUrl = 'https://wa.me/919921019664',
+  whatsappUrl = getWhatsAppGeneralInquiryUrl(),
   className = '',
 }) => {
   return (

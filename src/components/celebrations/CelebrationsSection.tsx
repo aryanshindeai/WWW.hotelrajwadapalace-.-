@@ -10,7 +10,7 @@ import { CELEBRATIONS_DATA } from '../../data/celebrationsData';
 import { ScrollReveal } from '../motion/ScrollReveal';
 
 interface CelebrationsSectionProps {
-  onEnquire?: () => void;
+  onEnquire?: (categoryTitle?: string) => void;
   onExploreSpace?: () => void;
   className?: string;
 }

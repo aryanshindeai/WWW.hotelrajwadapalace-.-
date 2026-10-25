@@ -8,7 +8,7 @@ interface RoomShowcaseProps {
   rooms: RoomCategory[];
   currentIndex?: number;
   onSelectIndex?: (index: number) => void;
-  onCheckAvailability?: () => void;
+  onCheckAvailability?: (roomName?: string) => void;
   className?: string;
 }
 

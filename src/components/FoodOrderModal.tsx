@@ -143,7 +143,7 @@ export const FoodOrderModal: React.FC<FoodOrderModalProps> = ({
       .filter(Boolean)
       .join('\n');
 
-    const message = `*Official Food Order — Hotel Rajwada Palace Restaurant*
+    const message = `*Food Order & Kitchen Enquiry — Hotel Rajwada Palace Restaurant*
 • *Customer Name:* ${customerName || 'Guest'}
 • *Phone:* ${phoneNumber || 'Not provided'}
 • *Service Type:* ${orderType === 'dine-in' ? 'Dine-In (Restaurant Seating)' : 'Takeaway / Parcel'}
@@ -152,12 +152,13 @@ ${tableOrAddress ? `• *${orderType === 'dine-in' ? 'Table / Location' : 'Picku
 *Order Summary (${totalItemsCount} items):*
 ${orderLines}
 
-*Total Payable:* ₹${totalAmount}
+*Estimated Total:* ₹${totalAmount}
 
-*Note:* Authentic pure vegetarian preparation. Please confirm order preparation time.`;
+*Note:* Authentic pure vegetarian preparation. This is an order inquiry; our kitchen team will confirm preparation time and dispatch.`;
 
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/919921019664?text=${encoded}`, '_blank');
+    const waUrl = `https://wa.me/919921019664?text=${encoded}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -491,13 +492,16 @@ ${orderLines}
               {/* Customer Details Form */}
               <div className="space-y-3 text-xs">
                 {submitSuccess && (
-                  <div className="p-2.5 bg-emerald-950/40 border border-emerald-500/40 rounded text-emerald-200">
+                  <div className="p-2.5 bg-emerald-950/40 border border-emerald-500/40 rounded text-emerald-200 space-y-1">
                     <div className="flex items-center gap-1.5 font-medium text-emerald-300">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>Order Recorded in Supabase</span>
+                      <span>Order Enquiry Forwarded to Kitchen Desk</span>
                     </div>
-                    <p className="mt-0.5 text-[10px] text-emerald-200/80">
-                      Saved to kitchen database & forwarding via WhatsApp.
+                    <p className="text-[10px] text-emerald-200/80 leading-relaxed">
+                      Saved to kitchen database &amp; forwarded via WhatsApp. Please confirm preparation and pickup details with restaurant staff.
+                    </p>
+                    <p className="text-[10px] text-amber-300/80">
+                      * Note: Order preparation begins after confirmation on WhatsApp.
                     </p>
                   </div>
                 )}
